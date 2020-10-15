@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:airpay_package/model/user.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:crypto/crypto.dart';
@@ -84,6 +87,79 @@ class _AirPayState extends State<AirPay> {
   String getProtoDomain(String sDomain) {
     int slashslash = sDomain.indexOf("//") + 2;
     return sDomain.substring(0, sDomain.indexOf("/", slashslash));
+  }
+  
+  
+  _showConfirmation(context, message) async {
+    await showDialog<String>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        String title = "Airpay";
+        String message1 = message;
+        return Platform.isIOS
+            ? new CupertinoAlertDialog(
+                title: Text(title),
+                content: Text(message1),
+                actions: <Widget>[
+                  new Container(
+                    margin: EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                      padding: EdgeInsets.all(12.0),
+                      onPressed: () {
+                        widget.callback(false);
+                        Navigator.pop(context);
+                      },
+                      color: Colors.blue[900],
+                      child: Text(
+                        'Yes',
+                        style: TextStyle(color: Colors.white, fontSize: 24.0),
+                      ),
+                    ),
+                  ),new Container(
+                    margin: EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                      padding: EdgeInsets.all(12.0),
+                      onPressed: () {
+
+                      },
+                      color: Colors.blue[900],
+                      child: Text(
+                        'No',
+                        style: TextStyle(color: Colors.white, fontSize: 24.0),
+                      ),
+                    ),
+                  )
+                ],
+              )
+            : new AlertDialog(
+                title: Text(title),
+                content: new Container(
+                    height: 140.0,
+                    child: new Column(
+                      children: [
+                        Text(message1),
+                        new Container(
+                          margin: EdgeInsets.all(8.0),
+                          child: RaisedButton(
+                            padding: EdgeInsets.all(12.0),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            color: Colors.blue[900],
+                            child: Text(
+                              'Okay',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 24.0),
+                            ),
+                          ),
+                        )
+                      ],
+                    )),
+                actions: <Widget>[],
+              );
+      },
+    );
   }
 
   InAppWebViewController _webViewController;
@@ -178,8 +254,7 @@ class _AirPayState extends State<AirPay> {
                 RaisedButton(
                   child: Icon(Icons.arrow_back),
                   onPressed: () {
-                     widget.callback(false);
-                      Navigator.pop(context);
+                    _showConfirmation(context,"Did you want to cancel this transaction ?");
                     // if (webView != null) {
                     //   webView.goBack();
                     // }
@@ -191,12 +266,6 @@ class _AirPayState extends State<AirPay> {
     );
   }
 }
-
-
-
-
-
-
 
    /* child:InAppWebView(
                       initialUrl: URL,
