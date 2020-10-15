@@ -1,3 +1,3 @@
-## [0.0.1] - TODO: Add release date.
+## [1.0.0] - TODO: 22-10-2020.
 
-* TODO: Describe initial release.
+* Airpay flutter.
