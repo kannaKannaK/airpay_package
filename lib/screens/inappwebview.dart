@@ -107,6 +107,8 @@ class _AirPayState extends State<AirPay> {
                     child: RaisedButton(
                       padding: EdgeInsets.all(12.0),
                       onPressed: () {
+                        Navigator.pop(context);
+                        print("Go Back");
                         widget.callback(false);
                         Navigator.pop(context);
                       },
@@ -121,7 +123,7 @@ class _AirPayState extends State<AirPay> {
                     child: RaisedButton(
                       padding: EdgeInsets.all(12.0),
                       onPressed: () {
-
+                        Navigator.pop(context);
                       },
                       color: Colors.blue[900],
                       child: Text(
