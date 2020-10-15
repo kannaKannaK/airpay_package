@@ -1,4 +1,4 @@
-import 'package:airpayPackage/model/user.dart';
+import 'package:airpay_package/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:crypto/crypto.dart';
