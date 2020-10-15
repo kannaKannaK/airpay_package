@@ -1,4 +1,4 @@
-library airpayPackage;
+library airpay_package;
 
 //Airpay Package
 export 'model/user.dart';
