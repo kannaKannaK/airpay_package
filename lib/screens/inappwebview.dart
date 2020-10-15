@@ -103,7 +103,7 @@ class _AirPayState extends State<AirPay> {
                 content: Text(message1),
                 actions: <Widget>[
                   new Container(
-                    margin: EdgeInsets.all(8.0),
+                    margin: EdgeInsets.all(0),
                     child: RaisedButton(
                       padding: EdgeInsets.all(12.0),
                       onPressed: () {
@@ -117,7 +117,7 @@ class _AirPayState extends State<AirPay> {
                       ),
                     ),
                   ),new Container(
-                    margin: EdgeInsets.all(8.0),
+                    margin: EdgeInsets.all(0),
                     child: RaisedButton(
                       padding: EdgeInsets.all(12.0),
                       onPressed: () {
