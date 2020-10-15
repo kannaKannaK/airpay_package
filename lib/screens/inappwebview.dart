@@ -5,14 +5,14 @@ import 'package:crypto/crypto.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
 
-class MyApp extends StatefulWidget {
+class AirPay extends StatefulWidget {
   final User user;
-  MyApp({Key key,@required this.user}) : super(key : key);
+  AirPay({Key key,@required this.user}) : super(key : key);
   @override
-  _MyAppState createState() => new _MyAppState();
+  _AirPayState createState() => new _AirPayState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _AirPayState extends State<AirPay> {
   var URL = 'https://google.com.tr';
   String url = "";
   double progress = 0;
