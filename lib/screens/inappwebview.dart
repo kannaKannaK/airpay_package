@@ -190,7 +190,7 @@ class _AirPayState extends State<AirPay> {
 
                             }
                           else{
-                            print('onLoadStop: not error');
+                            print('onLoadStop: not error URL: \n $url');
                           }
                         });
                       },
