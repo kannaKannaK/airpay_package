@@ -166,13 +166,15 @@ class _AirPayState extends State<AirPay> {
                           print("onLoadStart : $url");
                           if(getProtoDomain(widget.user.successUrl) == getProtoDomain(url)){
                             _webViewController.stopLoading();
-                            print("onLoadStart : Success");
                             widget.callback(true);
+                            print("onLoadStart : Success");
+                            Navigator.pop(context);
                           }
                           else if(getProtoDomain(widget.user.failedUrl) == getProtoDomain(url)) {
                             _webViewController.stopLoading();
-                            print("onLoadStart : Failed");
                             widget.callback(false);
+                            print("onLoadStart : Failed");
+                            Navigator.pop(context);
                           }
                         });
                       },
