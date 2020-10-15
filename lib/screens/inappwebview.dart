@@ -5,9 +5,13 @@ import 'package:crypto/crypto.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
 
+typedef void Closure(bool val);
+
 class AirPay extends StatefulWidget {
   final User user;
-  AirPay({Key key,@required this.user}) : super(key : key);
+  final Closure callback;
+
+  AirPay({Key key,@required this.user, this.callback}) : super(key : key);
   @override
   _AirPayState createState() => new _AirPayState();
 }
@@ -163,6 +167,12 @@ class _AirPayState extends State<AirPay> {
                           if(getProtoDomain(widget.user.successUrl) == getProtoDomain(url)){
                             _webViewController.stopLoading();
                             print("onLoadStart : Success");
+                            widget.callback(true);
+                          }
+                          else if(getProtoDomain(widget.user.failedUrl) == getProtoDomain(url)) {
+                            _webViewController.stopLoading();
+                            print("onLoadStart : Failed");
+                            widget.callback(false);
                           }
                         });
                       },
