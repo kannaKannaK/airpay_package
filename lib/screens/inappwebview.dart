@@ -11,7 +11,7 @@ class AirPay extends StatefulWidget {
   final User user;
   final Closure callback;
 
-  AirPay({Key key,@required this.user, this.callback}) : super(key : key);
+  AirPay({Key key, @required this.user, this.callback}) : super(key: key);
   @override
   _AirPayState createState() => new _AirPayState();
 }
@@ -20,23 +20,26 @@ class _AirPayState extends State<AirPay> {
   var URL = 'https://google.com.tr';
   String url = "";
   double progress = 0;
-  var postdata ="";
- // var domainNameFrom = getProtoDomain(widget.user.successUrl);
- // var failuerdomainNameFrom = getProtoDomain(widget.user.failedUrl);
-  String loadData()
-  {
+  var postdata = "";
+  // var domainNameFrom = getProtoDomain(widget.user.successUrl);
+  // var failuerdomainNameFrom = getProtoDomain(widget.user.failedUrl);
+  String loadData() {
     var date = new DateTime.now();
     var format = DateFormat("yyyy-MM-dd");
     var formattedDate = format.format(date);
-    var temp = utf8.encode('${widget.user.secret}@${widget.user.username}:|:${widget.user.password}');
-    var privatekey =  sha256.convert(temp);
-    var setAllData  = utf8.encode('${widget.user.email}${widget.user.fname}${widget.user.lname}${widget.user.fulladdress}${widget.user.city}${widget.user.state}${widget.user.country}${widget.user.amount}${widget.user.orderid}$formattedDate$privatekey');
+    var temp = utf8.encode(
+        '${widget.user.secret}@${widget.user.username}:|:${widget.user.password}');
+    var privatekey = sha256.convert(temp);
+    var setAllData = utf8.encode(
+        '${widget.user.email}${widget.user.fname}${widget.user.lname}${widget.user.fulladdress}${widget.user.city}${widget.user.state}${widget.user.country}${widget.user.amount}${widget.user.orderid}$formattedDate$privatekey');
     var checksum = md5.convert(setAllData);
-    var protocolDomain = getProtoDomain('https://apmerchantapp.nowpay.co.in/index.html');
-    List<int> bytes =ascii.encode(protocolDomain);
-    var encoded = base64.encode(bytes); // 'https://apmerchantapp.nowpay.co.in/index.html';
+    var protocolDomain =
+        getProtoDomain('https://apmerchantapp.nowpay.co.in/index.html');
+    List<int> bytes = ascii.encode(protocolDomain);
+    var encoded = base64
+        .encode(bytes); // 'https://apmerchantapp.nowpay.co.in/index.html';
     var user = widget.user;
-  /*  postdata = 'mer_dom=$encoded&currency=${user.currency}&isocurrency=${user.isCurrency}'+
+    /*  postdata = 'mer_dom=$encoded&currency=${user.currency}&isocurrency=${user.isCurrency}'+
         '&orderid=${user.orderid}&privatekey=${privatekey.toString()}&checksum=${checksum.toString()}'
         +'mercid=${user.merchantId}&buyerEmail=${user.email}&buyerPhone=${user.phone}'
         +'&buyerFirstName=${user.fname}&buyerLastName=${user.lname}&buyerAddress=${user.fulladdress}'
@@ -45,8 +48,8 @@ class _AirPayState extends State<AirPay> {
         +'&customvar=${user.customVar}&txnsubtype=${user.txnSubtype}'
         +'&wallet=${user.wallet}${user.txnSubtype}&surchargeAmount=';
     print('post data : $postdata');*/
-   // print('encoded : ${utf8.encode(postdata)}');
-   // return utf8.encode(postdata);
+    // print('encoded : ${utf8.encode(postdata)}');
+    // return utf8.encode(postdata);
     var url = "<!DOCTYPE html>" +
         "<html>" +
         "<body onload='document.frm1.submit()'>" +
@@ -77,20 +80,125 @@ class _AirPayState extends State<AirPay> {
         "</html>";
     return url;
   }
-  String getProtoDomain(String sDomain)
-  {
-    int slashslash =sDomain.indexOf("//")+2;
-    return sDomain.substring(0,sDomain.indexOf("/",slashslash));
+
+  String getProtoDomain(String sDomain) {
+    int slashslash = sDomain.indexOf("//") + 2;
+    return sDomain.substring(0, sDomain.indexOf("/", slashslash));
   }
+
   InAppWebViewController _webViewController;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-            body: Container(
-                child: Column(children: <Widget>[
-                  Expanded(
-                   /* child:InAppWebView(
+        body: Container(
+            child: Column(children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(10.0),
+                child: progress < 1.0
+                    ? LinearProgressIndicator(value: progress)
+                    : Container()),
+          Expanded(
+         
+            child: InAppWebView(
+              //initialUrl: URL,
+              initialData: InAppWebViewInitialData(
+                data: loadData(),
+              ),
+              initialOptions: InAppWebViewGroupOptions(
+                  crossPlatform: InAppWebViewOptions(
+                debuggingEnabled: true,
+                javaScriptEnabled: true,
+              )),
+              onTitleChanged: (InAppWebViewController controller, String url) {
+                setState(() {
+                  print("onTitleChanged : $url");
+                });
+              },
+              onWebViewCreated: (InAppWebViewController controller) {},
+              onLoadStart: (InAppWebViewController controller, String url) {
+                setState(() {
+                  print("onLoadStart : $url");
+                  if (getProtoDomain(widget.user.successUrl) == getProtoDomain(url)) {
+                    _webViewController.stopLoading();
+                    widget.callback(true);
+                    print("onLoadStart : Success");
+                    Navigator.pop(context);
+                  }
+                  else if (getProtoDomain(widget.user.failedUrl) == getProtoDomain(url)) {
+                    _webViewController.stopLoading();
+                    widget.callback(false);
+                    print("onLoadStart : Failed");
+                    Navigator.pop(context);
+                  }
+                });
+              },
+              onLoadStop:
+                  (InAppWebViewController controller, String url) async {
+                /* int result1 = await controller.evaluateJavascript(source: "10 + 20;");
+                        print(result1); // 30
+
+                        String result2 = await controller.evaluateJavascript(source: """
+                        var firstname = "Foo";
+                        var lastname = "Bar";
+                        firstname + " " + lastname;
+                      """);
+                        print(result2);*/
+                String ht = await controller.evaluateJavascript(
+                    source:
+                        "javascript:window.droid.print(document.getElementsByClassName('alert')[0].innerHTML);");
+
+                setState(() {
+                  this.url = url;
+                  if (url
+                      .startsWith('https://payments.airpay.ninja/error.php')) {
+                    setState(() {
+                      controller.loadUrl(url: ht);
+                      print('ht: $url');
+                      print('onLoad Stop in - $url');
+                      widget.callback(false);
+                      Navigator.pop(context);
+                    });
+                  } else {
+                    print('on Load Stop: not error URL: \n $url');
+                  }
+                });
+              },
+              onProgressChanged:
+                  (InAppWebViewController controller, int progress) {
+                setState(() {
+                  this.progress = progress / 100;
+                });
+              },
+            ),
+          ),
+          ButtonBar(
+              alignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RaisedButton(
+                  child: Icon(Icons.arrow_back),
+                  onPressed: () {
+                     widget.callback(false);
+                      Navigator.pop(context);
+                    // if (webView != null) {
+                    //   webView.goBack();
+                    // }
+                  },
+                )]
+          ),
+        ])),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+   /* child:InAppWebView(
                       initialUrl: URL,
                       initialData: InAppWebViewInitialData(
                          // data: loadData(),
@@ -144,78 +252,3 @@ class _AirPayState extends State<AirPay> {
                         return ServerTrustAuthResponse(action: ServerTrustAuthResponseAction.PROCEED);
                       },
                     ),*/
-                    child: InAppWebView(
-                      //initialUrl: URL,
-                      initialData: InAppWebViewInitialData(
-                        data: loadData(),
-                      ),
-                     initialOptions: InAppWebViewGroupOptions(
-                       crossPlatform:  InAppWebViewOptions(
-                         debuggingEnabled: true,
-                         javaScriptEnabled: true,
-                       )
-                     ),
-                     onTitleChanged: (InAppWebViewController controller,String url){
-                       setState(() {
-                         print("onTitleChanged : $url");
-                       });
-                     },
-                      onWebViewCreated: (InAppWebViewController controller) {},
-                      onLoadStart:  (InAppWebViewController controller, String url) {
-                        setState(() {
-                          print("onLoadStart : $url");
-                          if(getProtoDomain(widget.user.successUrl) == getProtoDomain(url)){
-                            _webViewController.stopLoading();
-                            widget.callback(true);
-                            print("onLoadStart : Success");
-                            Navigator.pop(context);
-                          }
-                          else if(getProtoDomain(widget.user.failedUrl) == getProtoDomain(url)) {
-                            _webViewController.stopLoading();
-                            widget.callback(false);
-                            print("onLoadStart : Failed");
-                            Navigator.pop(context);
-                          }
-                        });
-                      },
-                      onLoadStop: (InAppWebViewController controller, String url) async {
-                       /* int result1 = await controller.evaluateJavascript(source: "10 + 20;");
-                        print(result1); // 30
-
-                        String result2 = await controller.evaluateJavascript(source: """
-                        var firstname = "Foo";
-                        var lastname = "Bar";
-                        firstname + " " + lastname;
-                      """);
-                        print(result2);*/
-                        String ht = await controller.evaluateJavascript(source: "javascript:window.droid.print(document.getElementsByClassName('alert')[0].innerHTML);");
-
-                        setState(() {
-                          this.url = url;
-                          if(url.startsWith('https://payments.airpay.ninja/error.php'))
-                            {
-                              setState(() {
-                                controller.loadUrl(url: ht);
-                                print('ht: $url');
-                                print('onLoadStop: $url');
-                              });
-
-                            }
-                          else{
-                            print('onLoadStop: not error URL: \n $url');
-                          }
-                        });
-                      },
-                      onProgressChanged: (InAppWebViewController controller, int progress) {
-                        setState(() {
-                          this.progress = progress/100;
-                        });
-                      }  ,
-                    ),
-                  ),
-                ])),
-        ),
-    );
-
-  }
-}
