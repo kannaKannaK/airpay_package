@@ -263,7 +263,7 @@ class _AirPayState extends State<AirPay> {
           ),
           ButtonBar(alignment: MainAxisAlignment.center, children: <Widget>[
             RaisedButton(
-              child: Icon(Icons.arrow_back),
+              child: Icon(Icons.close),
               onPressed: () {
                 _showConfirmation(
                     context, "Did you want to cancel this transaction ?");
