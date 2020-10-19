@@ -182,7 +182,7 @@ class _AirPayState extends State<AirPay> {
       child: Scaffold(
         appBar:  AppBar(
       leading: IconButton(icon: Icon(Icons.arrow_back),onPressed: () => {
-        _showConfirmation(context, "Did you want to cancel this transaction ?");
+        _showConfirmation(context, "Did you want to cancel this transaction ?")
 
       },),
       backgroundColor: Colors.blue[900],
