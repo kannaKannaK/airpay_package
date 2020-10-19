@@ -175,11 +175,28 @@ class _AirPayState extends State<AirPay> {
     );
   }
 
+AppBar appBar = AppBar(
+      leading: IconButton(icon: Icon(Icons.arrow_back),onPressed: () => {
+        
+      },),
+      backgroundColor: Colors.blue[900],
+      actions: <Widget>[
+        // IconButton(
+        //   icon: Icon(
+        //     Icons.settings,
+        //     size: 20,
+        //   ),
+        //   onPressed: () {},
+        // ),
+      ],
+    );
+
   InAppWebViewController _webViewController;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: appBar,
         body: Container(
             child: Column(children: <Widget>[
           Container(
@@ -261,18 +278,18 @@ class _AirPayState extends State<AirPay> {
               },
             ),
           ),
-          ButtonBar(alignment: MainAxisAlignment.center, children: <Widget>[
-            RaisedButton(
-              child: Icon(Icons.close),
-              onPressed: () {
-                _showConfirmation(
-                    context, "Did you want to cancel this transaction ?");
-                // if (webView != null) {
-                //   webView.goBack();
-                // }
-              },
-            )
-          ]),
+          // ButtonBar(alignment: MainAxisAlignment.center, children: <Widget>[
+          //   RaisedButton(
+          //     child: Icon(Icons.close),
+          //     onPressed: () {
+          //       _showConfirmation(
+          //           context, "Did you want to cancel this transaction ?");
+          //       // if (webView != null) {
+          //       //   webView.goBack();
+          //       // }
+          //     },
+          //   )
+          // ]),
         ])),
       ),
     );
