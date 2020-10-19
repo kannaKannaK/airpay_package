@@ -180,15 +180,24 @@ class _AirPayState extends State<AirPay> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar:  AppBar(
-      leading: IconButton(icon: Icon(Icons.arrow_back),onPressed: () => {
-        _showConfirmation(context, "Did you want to cancel this transaction ?")
-
-      },),
-      backgroundColor: Colors.blue[900],
-      actions: <Widget>[
-      ],
-    ),
+        appBar: AppBar(
+          centerTitle: true,
+          title: Image.asset(
+            'assets/airpays.png',
+            height: 40,
+            color: Colors.white,
+            width: 200,
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => {
+              _showConfirmation(
+                  context, "Did you want to cancel this transaction ?")
+            },
+          ),
+          backgroundColor: Colors.blue[900],
+          actions: <Widget>[],
+        ),
         body: Container(
             child: Column(children: <Widget>[
           Container(
