@@ -189,7 +189,7 @@ class _AirPayState extends State<AirPay> {
             width: 200,
           ),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(Icons.close),
             onPressed: () => {
               _showConfirmation(
                   context, "Did you want to cancel this transaction ?")
