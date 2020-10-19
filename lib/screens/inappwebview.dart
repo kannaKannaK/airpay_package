@@ -37,7 +37,7 @@ class _AirPayState extends State<AirPay> {
         '${widget.user.email}${widget.user.fname}${widget.user.lname}${widget.user.fulladdress}${widget.user.city}${widget.user.state}${widget.user.country}${widget.user.amount}${widget.user.orderid}$formattedDate$privatekey');
     var checksum = md5.convert(setAllData);
     var protocolDomain =
-        getProtoDomain('http://www.theroadiesstore.in/airpay/transact/response'); //https://apmerchantapp.nowpay.co.in/index.html
+        getProtoDomain(widget.user.protoDomain);//'http://www.theroadiesstore.in/airpay/transact/response'); //https://apmerchantapp.nowpay.co.in/index.html
     List<int> bytes = ascii.encode(protocolDomain);
     var encoded = base64
         .encode(bytes); // 'https://apmerchantapp.nowpay.co.in/index.html';

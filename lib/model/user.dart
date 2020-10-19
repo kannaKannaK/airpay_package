@@ -14,6 +14,7 @@ class User{
   String password;
   String secret;
   String merchantId;
+  String protoDomain;
   String currency;
   String isCurrency;
   String chMode;
@@ -22,6 +23,6 @@ class User{
   String wallet;
   String successUrl;
   String failedUrl;
-  User({this.username,this.password,this.secret,this.merchantId,this.fname,this.lname,this.email,this.phone,this.fulladdress,this.city,this.state,this.country,this.pincode,this.amount,this.orderid,
+  User({this.username,this.password,this.secret,this.merchantId,this.protoDomain,this.fname,this.lname,this.email,this.phone,this.fulladdress,this.city,this.state,this.country,this.pincode,this.amount,this.orderid,
   this.currency,this.isCurrency,this.chMode,this.customVar,this.txnSubtype,this.wallet,this.successUrl,this.failedUrl});
 }
