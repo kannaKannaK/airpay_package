@@ -36,8 +36,8 @@ class _AirPayState extends State<AirPay> {
     var setAllData = utf8.encode(
         '${widget.user.email}${widget.user.fname}${widget.user.lname}${widget.user.fulladdress}${widget.user.city}${widget.user.state}${widget.user.country}${widget.user.amount}${widget.user.orderid}$formattedDate$privatekey');
     var checksum = md5.convert(setAllData);
-    var protocolDomain =
-        getProtoDomain(widget.user.protoDomain);//'http://www.theroadiesstore.in/airpay/transact/response'); //https://apmerchantapp.nowpay.co.in/index.html
+    var protocolDomain = getProtoDomain(widget.user
+        .protoDomain); //'http://www.theroadiesstore.in/airpay/transact/response'); //https://apmerchantapp.nowpay.co.in/index.html
     List<int> bytes = ascii.encode(protocolDomain);
     var encoded = base64
         .encode(bytes); // 'https://apmerchantapp.nowpay.co.in/index.html';
@@ -88,8 +88,7 @@ class _AirPayState extends State<AirPay> {
     int slashslash = sDomain.indexOf("//") + 2;
     return sDomain.substring(0, sDomain.indexOf("/", slashslash));
   }
-  
-  
+
   _showConfirmation(context, message) async {
     await showDialog<String>(
       context: context,
@@ -118,7 +117,8 @@ class _AirPayState extends State<AirPay> {
                         style: TextStyle(color: Colors.white, fontSize: 24.0),
                       ),
                     ),
-                  ),new Container(
+                  ),
+                  new Container(
                     margin: EdgeInsets.all(0),
                     child: RaisedButton(
                       padding: EdgeInsets.all(12.0),
@@ -137,8 +137,7 @@ class _AirPayState extends State<AirPay> {
             : new AlertDialog(
                 title: Text(title),
                 content: Text(message1),
-
-actions: <Widget>[
+                actions: <Widget>[
                   new Container(
                     margin: EdgeInsets.all(0),
                     child: RaisedButton(
@@ -155,7 +154,8 @@ actions: <Widget>[
                         style: TextStyle(color: Colors.white, fontSize: 24.0),
                       ),
                     ),
-                  ),new Container(
+                  ),
+                  new Container(
                     margin: EdgeInsets.all(0),
                     child: RaisedButton(
                       padding: EdgeInsets.all(12.0),
@@ -169,7 +169,8 @@ actions: <Widget>[
                       ),
                     ),
                   )
-                ],              );
+                ],
+              );
       },
     );
   }
@@ -181,13 +182,12 @@ actions: <Widget>[
       child: Scaffold(
         body: Container(
             child: Column(children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(10.0),
-                child: progress < 1.0
-                    ? LinearProgressIndicator(value: progress)
-                    : Container()),
+          Container(
+              padding: EdgeInsets.all(10.0),
+              child: progress < 1.0
+                  ? LinearProgressIndicator(value: progress)
+                  : Container()),
           Expanded(
-         
             child: InAppWebView(
               //initialUrl: URL,
               initialData: InAppWebViewInitialData(
@@ -207,13 +207,14 @@ actions: <Widget>[
               onLoadStart: (InAppWebViewController controller, String url) {
                 setState(() {
                   print("onLoadStart : $url");
-                  if (getProtoDomain(widget.user.successUrl) == getProtoDomain(url)) {
+                  if (getProtoDomain(widget.user.successUrl) ==
+                      getProtoDomain(url)) {
                     _webViewController.stopLoading();
                     widget.callback(true);
                     print("onLoadStart : Success");
                     Navigator.pop(context);
-                  }
-                  else if (getProtoDomain(widget.user.failedUrl) == getProtoDomain(url)) {
+                  } else if (getProtoDomain(widget.user.failedUrl) ==
+                      getProtoDomain(url)) {
                     _webViewController.stopLoading();
                     widget.callback(false);
                     print("onLoadStart : Failed");
@@ -260,26 +261,25 @@ actions: <Widget>[
               },
             ),
           ),
-          ButtonBar(
-              alignment: MainAxisAlignment.center,
-              children: <Widget>[
-                RaisedButton(
-                  child: Icon(Icons.arrow_back),
-                  onPressed: () {
-                    _showConfirmation(context,"Did you want to cancel this transaction ?");
-                    // if (webView != null) {
-                    //   webView.goBack();
-                    // }
-                  },
-                )]
-          ),
+          ButtonBar(alignment: MainAxisAlignment.center, children: <Widget>[
+            RaisedButton(
+              child: Icon(Icons.arrow_back),
+              onPressed: () {
+                _showConfirmation(
+                    context, "Did you want to cancel this transaction ?");
+                // if (webView != null) {
+                //   webView.goBack();
+                // }
+              },
+            )
+          ]),
         ])),
       ),
     );
   }
 }
 
-   /* child:InAppWebView(
+/* child:InAppWebView(
                       initialUrl: URL,
                       initialData: InAppWebViewInitialData(
                          // data: loadData(),
