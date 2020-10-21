@@ -226,8 +226,13 @@ class _AirPayState extends State<AirPay> {
               onLoadStart: (InAppWebViewController controller, String url) {
                 setState(() {
                   print("onLoadStart : $url");
-                  if (getProtoDomain(widget.user.successUrl) ==
-                      getProtoDomain(url)) {
+                  var succesPath = getProtoDomain(widget.user.successUrl);
+                  var webURLPath = getProtoDomain(url);
+                  if (succesPath.contains("http://")) {
+                    webURLPath = webURLPath.replaceAll("https://", "http://");
+                  }
+
+                  if (succesPath == webURLPath) {
                     _webViewController.stopLoading();
                     widget.callback(true);
                     print("onLoadStart : Success");
