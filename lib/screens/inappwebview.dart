@@ -77,7 +77,8 @@ class _AirPayState extends State<AirPay> {
         "  <input type='hidden' name='chmod' value='${user.chMode}'><br>" +
         "  <input type='hidden' name='customvar' value='${user.customVar}'><br>" +
         "  <input type='hidden' name='txnsubtype' value='${user.txnSubtype}'><br>" +
-        "  <input type='hidden' name='wallet' value='${user.wallet + user.txnSubtype}'><br>" +
+        "  <input type='hidden' name='token' value=''><br>" +
+        "  <input type='hidden' name='txnsubtype' value='${user.txnSubtype}'><br>" +
         "</form>" +
         "</body>" +
         "</html>";
