@@ -13,10 +13,10 @@ typedef void Closure(bool val);
 class AirPay extends StatefulWidget {
   final User user;
   final Closure callback;
-  AirPay({this.callback, this.user});
 
+  AirPay({Key key, @required this.user, this.callback}) : super(key: key);
   @override
-  _AirPayState createState() => new _AirPayState(callback: this.callback);
+  _AirPayState createState() => new _AirPayState();
 }
 
 class _AirPayState extends State<AirPay> {
@@ -24,9 +24,6 @@ class _AirPayState extends State<AirPay> {
   String url = "";
   double progress = 0;
   var postdata = "";
-  final Closure callback;
-  _AirPayState({this.callback});
-
   // var domainNameFrom = getProtoDomain(widget.user.successUrl);
   // var failuerdomainNameFrom = getProtoDomain(widget.user.failedUrl);
   String loadData() {
@@ -237,14 +234,14 @@ class _AirPayState extends State<AirPay> {
 
                   if (succesPath == webURLPath) {
                     // _webViewController.stopLoading();
-                    Navigator.pop(context);
-                    this.callback(true);
+                    Navigator.pop(context, true);
+                    // widget.callback(true);
                     print("onLoadStart : Success");
                   } else if (getProtoDomain(widget.user.failedUrl) ==
                       getProtoDomain(url)) {
                     // _webViewController.stopLoading();
-                    Navigator.pop(context);
-                    this.callback(false);
+                    Navigator.pop(context, false);
+                    // widget.callback(false);
                     print("onLoadStart : Failed");
                   }
                 });
