@@ -56,7 +56,7 @@ class _AirPayState extends State<AirPay> {
     var url = "<!DOCTYPE html>" +
         "<html>" +
         "<body onload='document.frm1.submit()'>" +
-        "<form action='https://payments.airpay.co.in/sdk/a.php' method='post' name='frm1'>" +
+        "<form action='https://payments.airpay.co.in/pay/index.php' method='post' name='frm1'>" +
         "  <input type='hidden' name='mer_dom' value='$encoded'><br>" +
         "  <input type='hidden' name='currency' value='${user.currency}'><br>" +
         "  <input type='hidden' name='isocurrency' value='${user.isCurrency}'><br>" +
