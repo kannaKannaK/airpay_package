@@ -8,6 +8,7 @@ import 'package:crypto/crypto.dart';
 import 'package:intl/intl.dart';
 import 'package:loading/indicator/line_scale_party_indicator.dart';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import 'package:loading/loading.dart';
 
@@ -77,6 +78,44 @@ class _AirPayState extends State<AirPay> {
   String getProtoDomain(String sDomain) {
     int slashslash = sDomain.indexOf("//") + 2;
     return sDomain.substring(0, sDomain.indexOf("/", slashslash));
+  }
+
+  fetchDetails() async {
+    String urlString = "https://payments.airpay.co.in/sdk/a.php";
+
+     var date = new DateTime.now();
+    var format = DateFormat("yyyy-MM-dd HH:mm:ss");
+    var formattedDate = format.format(date);
+    format = DateFormat("yyyy HH:mm:ss");
+    var formattedDate2 = format.format(date);
+
+    var temp = utf8.encode(
+        '${widget.user.secret}@${widget.user.username}:|:${widget.user.password}');
+    var privatekey = sha256.convert(temp);
+    
+    var setAllData = utf8.encode(
+        '$privatekey${widget.user.orderid}${widget.user.merchantId}$formattedDate2');
+    var checksum = md5.convert(setAllData);
+
+    var params = jsonEncode(<String, dynamic>{
+      'privatekey': privatekey,
+      'orderID': widget.user.orderid,
+      'mercid': widget.user.merchantId,
+      'checksum': checksum,
+      'datetime': formattedDate,
+    });
+    final url = Uri.parse(urlString);
+    final request = http.Request("POST", url);
+    request.headers.addAll(<String, String>{
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    });
+    request.body = params;
+    final response = await request.send();
+    if (response.statusCode != 200)
+      return Future.error("error: status code ${response.statusCode}");
+    else if (response.statusCode == 200) {
+      print("object $response");
+    }
   }
 
   _showConfirmation(context, message) async {
@@ -227,6 +266,7 @@ class _AirPayState extends State<AirPay> {
 
                   if (succesPath == webURLPath) {
                     // _webViewController.stopLoading();
+                    fetchDetails();
                     Navigator.pop(context, true);
                     // widget.callback(true);
                     print("onLoadStart : Success");
