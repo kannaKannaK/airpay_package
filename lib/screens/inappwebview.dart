@@ -194,7 +194,7 @@ class _AirPayState extends State<AirPay> {
                     height: 40,
         color: Colors.transparent,
         child: Center(
-          child: Loading(indicator: LineScalePulseOutIndicator(), size: 60.0, color: Colors.blue[900]),
+          child: Loading(indicator: LineScalePulseOutIndicator(), size: 40.0, color: Colors.blue[900]),
         )) : Container()),
           Expanded(
             child: InAppWebView(
@@ -218,8 +218,11 @@ class _AirPayState extends State<AirPay> {
                   print("onLoadStart : $url");
                   var succesPath = getProtoDomain(widget.user.successUrl);
                   var webURLPath = getProtoDomain(url);
-                  if (succesPath.contains("http://")) {
+                  if (succesPath.contains("http://") && !webURLPath.contains("http://")) {
                     webURLPath = webURLPath.replaceAll("https://", "http://");
+                  }
+                  else if (succesPath.contains("https://") && !webURLPath.contains("https://")) {
+                    webURLPath = webURLPath.replaceAll("http://", "https://");
                   }
 
                   if (succesPath == webURLPath) {
