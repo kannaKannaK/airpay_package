@@ -4,29 +4,31 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
-class AirpayHome extends StatefulWidget{
+
+class AirpayHome extends StatefulWidget {
   final User user;
-  AirpayHome({Key key,@required this.user}) : super(key : key);
+  AirpayHome({Key key, @required this.user}) : super(key: key);
 
   @override
   _AirpayHomeState createState() => _AirpayHomeState();
 }
 
 class _AirpayHomeState extends State<AirpayHome> {
-  var sha ;
+  var sha;
   var md;
-  var url ;
- void  _encryptSHA256()
-  {
+  var url;
+  void _encryptSHA256() {
     var date = new DateTime.now();
     var format = DateFormat("yyyy-MM-dd");
     var formattedDate = format.format(date);
-    var temp = utf8.encode('${widget.user.secret}@${widget.user.username}:|:${widget.user.password}');
-    var privatekey =  sha256.convert(temp);
-    var setAllData  = utf8.encode('${widget.user.email}${widget.user.fname}${widget.user.lname}${widget.user.fulladdress}${widget.user.city}${widget.user.state}${widget.user.country}${widget.user.amount}${widget.user.orderid}$formattedDate$privatekey');
+    var temp = utf8.encode(
+        '${widget.user.secret}@${widget.user.username}:|:${widget.user.password}');
+    var privatekey = sha256.convert(temp);
+    var setAllData = utf8.encode(
+        '${widget.user.email}${widget.user.fname}${widget.user.lname}${widget.user.fulladdress}${widget.user.city}${widget.user.state}${widget.user.country}${widget.user.amount}${widget.user.orderid}$formattedDate$privatekey');
     var checksum = md5.convert(setAllData);
     var protocolDomain = getProtoDomain(widget.user.successUrl);
-    List<int> bytes =ascii.encode(protocolDomain);
+    List<int> bytes = ascii.encode(protocolDomain);
     var encoded = base64.encode(bytes);
     // var decoded = base64.decode(encoded);
     /*print("protocolDomain $protocolDomain");
@@ -34,7 +36,7 @@ class _AirpayHomeState extends State<AirpayHome> {
     print("base64encoded : $encoded");
     print("base64decoded $decoded");*/
     var user = widget.user;
-     url = "<!DOCTYPE html>" +
+    url = "<!DOCTYPE html>" +
         "<html>" +
         "<body onload='document.frm1.submit()'>" +
         "<form action='https://payments.airpay.ninja/pay/index.php' method='post' name='frm1'>" +
@@ -63,7 +65,7 @@ class _AirpayHomeState extends State<AirpayHome> {
         "</body>" +
         "</html>";
 
-  /*  SecurityContext serverContext = new SecurityContext()
+    /*  SecurityContext serverContext = new SecurityContext()
       ..useCertificateChain('path/to/my_cert.pem')
       ..usePrivateKey('path/to/my_key.pem');
   var server = await HttpServer.bindSecure('example.com',
@@ -84,14 +86,49 @@ The navigation delegate is set to block navigation to the youtube website.
 </body>
 </html>
 ''';*/
-    var sPostData = "mer_dom=" + encoded + "&currency=" + widget.user.currency + "&isocurrency=" + widget.user.isCurrency
-        + "&orderid=" + widget.user.orderid + "&privatekey=" + privatekey.toString() + "&checksum=" + checksum.toString()
-        + "&mercid=" + widget.user.merchantId + "&buyerEmail=" + widget.user.email + "&buyerPhone=" + widget.user.phone
-        + "&buyerFirstName=" + widget.user.fname + "&buyerLastName=" + widget.user.lname + "&buyerAddress=" + widget.user.fulladdress
-        + "&buyerCity=" + widget.user.city + "&buyerState=" + widget.user.state + "&buyerCountry=" + widget.user.country
-        + "&buyerPinCode=" + widget.user.pincode + "&amount=" + widget.user.amount + "&chmod=" + widget.user.chMode
-        + "&customvar=" + widget.user.customVar + "&txnsubtype=" + widget.user.txnSubtype
-        + "&wallet=" + widget.user.wallet + widget.user.txnSubtype ;
+    var sPostData = "mer_dom=" +
+        encoded +
+        "&currency=" +
+        widget.user.currency +
+        "&isocurrency=" +
+        widget.user.isCurrency +
+        "&orderid=" +
+        widget.user.orderid +
+        "&privatekey=" +
+        privatekey.toString() +
+        "&checksum=" +
+        checksum.toString() +
+        "&mercid=" +
+        widget.user.merchantId +
+        "&buyerEmail=" +
+        widget.user.email +
+        "&buyerPhone=" +
+        widget.user.phone +
+        "&buyerFirstName=" +
+        widget.user.fname +
+        "&buyerLastName=" +
+        widget.user.lname +
+        "&buyerAddress=" +
+        widget.user.fulladdress +
+        "&buyerCity=" +
+        widget.user.city +
+        "&buyerState=" +
+        widget.user.state +
+        "&buyerCountry=" +
+        widget.user.country +
+        "&buyerPinCode=" +
+        widget.user.pincode +
+        "&amount=" +
+        widget.user.amount +
+        "&chmod=" +
+        widget.user.chMode +
+        "&customvar=" +
+        widget.user.customVar +
+        "&txnsubtype=" +
+        widget.user.txnSubtype +
+        "&wallet=" +
+        widget.user.wallet +
+        widget.user.txnSubtype;
     print("postdata : $sPostData");
     setState(() {
       sha = privatekey;
@@ -99,11 +136,11 @@ The navigation delegate is set to block navigation to the youtube website.
     });
   }
 
- String getProtoDomain(String sDomain)
- {
-     int slashslash =sDomain.indexOf("//")+2;
-     return sDomain.substring(0,sDomain.indexOf("/",slashslash));
- }
+  String getProtoDomain(String sDomain) {
+    int slashslash = sDomain.indexOf("//") + 2;
+    return sDomain.substring(0, sDomain.indexOf("/", slashslash));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,86 +152,88 @@ The navigation delegate is set to block navigation to the youtube website.
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
-                child: Text(widget.user.fname,style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24
-                ),),
+                child: Text(
+                  widget.user.fname,
+                  style: TextStyle(color: Colors.black, fontSize: 24),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
-                child: Text(widget.user.lname,style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24
-                ),),
+                child: Text(
+                  widget.user.lname,
+                  style: TextStyle(color: Colors.black, fontSize: 24),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
-                child: Text(widget.user.email,style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24
-                ),),
+                child: Text(
+                  widget.user.email,
+                  style: TextStyle(color: Colors.black, fontSize: 24),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
-                child: Text(widget.user.phone,style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24
-                ),),
+                child: Text(
+                  widget.user.phone,
+                  style: TextStyle(color: Colors.black, fontSize: 24),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
-                child: Text(widget.user.city,style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24
-                ),),
+                child: Text(
+                  widget.user.city,
+                  style: TextStyle(color: Colors.black, fontSize: 24),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
-                child: Text(widget.user.state,style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24
-                ),),
+                child: Text(
+                  widget.user.state,
+                  style: TextStyle(color: Colors.black, fontSize: 24),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
-                child: Text(widget.user.country,style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24
-                ),),
+                child: Text(
+                  widget.user.country,
+                  style: TextStyle(color: Colors.black, fontSize: 24),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.all(32.0),
-                child:  RaisedButton(
-                  onPressed: (){
+                child: RaisedButton(
+                  onPressed: () {
                     _encryptSHA256();
-                    Navigator.push(context, MaterialPageRoute(
-                       builder:(context) => InAppWebView()
-                    ));
-
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => InAppWebView()));
                   },
-                  child: Text('Encrypt',style: TextStyle(color: Colors.white,fontSize: 16.0),),
+                  child: Text(
+                    'Encrypt',
+                    style: TextStyle(color: Colors.white, fontSize: 16.0),
+                  ),
                   color: Colors.red,
                 ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
-                child: Text('sha : $sha',style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24
-                ),),
+                child: Text(
+                  'sha : $sha',
+                  style: TextStyle(color: Colors.black, fontSize: 24),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
-                child: Text('md5 $md',style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24
-                ),),
+                child: Text(
+                  'md5 $md',
+                  style: TextStyle(color: Colors.black, fontSize: 24),
+                ),
               ),
-
             ],
           ),
         ),
       ),
     );
-
-  }}
+  }
+}

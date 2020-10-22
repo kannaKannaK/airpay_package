@@ -10,6 +10,7 @@ import 'dart:convert';
 
 typedef void Closure(bool val);
 
+
 class AirPay extends StatefulWidget {
   final User user;
   final Closure callback;
@@ -34,13 +35,11 @@ class _AirPayState extends State<AirPay> {
     var setAllData = utf8.encode(
         '${widget.user.email}${widget.user.fname}${widget.user.lname}${widget.user.fulladdress}${widget.user.city}${widget.user.state}${widget.user.country}${widget.user.amount}${widget.user.orderid}$formattedDate$privatekey');
     var checksum = md5.convert(setAllData);
-    var protocolDomain = getProtoDomain(widget.user
-        .protoDomain);
+    var protocolDomain = getProtoDomain(widget.user.protoDomain);
     List<int> bytes = ascii.encode(protocolDomain);
-    var encoded = base64
-        .encode(bytes);
+    var encoded = base64.encode(bytes);
     var user = widget.user;
-   
+
     var url = "<!DOCTYPE html>" +
         "<html>" +
         "<body onload='document.frm1.submit()'>" +
@@ -93,10 +92,10 @@ class _AirPayState extends State<AirPay> {
                   new Container(
                     margin: EdgeInsets.all(0),
                     child: RaisedButton(
-                      padding: EdgeInsets.all(12.0),
+                      padding: EdgeInsets.all(8.0),
                       onPressed: () {
                         Navigator.pop(context);
-                        Navigator.pop(context,false);
+                        Navigator.pop(context, false);
                       },
                       color: Colors.blue[900],
                       child: Text(
@@ -108,7 +107,7 @@ class _AirPayState extends State<AirPay> {
                   new Container(
                     margin: EdgeInsets.all(0),
                     child: RaisedButton(
-                      padding: EdgeInsets.all(12.0),
+                      padding: EdgeInsets.all(8.0),
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -128,7 +127,7 @@ class _AirPayState extends State<AirPay> {
                   new Container(
                     margin: EdgeInsets.all(0),
                     child: RaisedButton(
-                      padding: EdgeInsets.all(12.0),
+                      padding: EdgeInsets.all(8.0),
                       onPressed: () {
                         Navigator.pop(context);
                         Navigator.pop(context, false);
@@ -143,9 +142,10 @@ class _AirPayState extends State<AirPay> {
                   new Container(
                     margin: EdgeInsets.all(0),
                     child: RaisedButton(
-                      padding: EdgeInsets.all(12.0),
+                      padding: EdgeInsets.all(8.0),
                       onPressed: () {
-                        Navigator.pop(context, false);
+                        Navigator.pop(context);
+                        // Navigator.pop(context, false);
                       },
                       color: Colors.blue[900],
                       child: Text(
@@ -153,7 +153,7 @@ class _AirPayState extends State<AirPay> {
                         style: TextStyle(color: Colors.white, fontSize: 24.0),
                       ),
                     ),
-                  )
+                  ),
                 ],
               );
       },
@@ -222,7 +222,7 @@ class _AirPayState extends State<AirPay> {
                     // widget.callback(true);
                     print("onLoadStart : Success");
                   } else if (getProtoDomain(widget.user.failedUrl) ==
-                      getProtoDomain(url)) {
+                      webURLPath) {
                     Navigator.pop(context, false);
                     print("onLoadStart : Failed");
                   }
@@ -242,8 +242,7 @@ class _AirPayState extends State<AirPay> {
                       controller.loadUrl(url: ht);
                       print('ht: $url');
                       print('onLoad Stop in - $url');
-                      widget.callback(false);
-                      Navigator.pop(context);
+                      Navigator.pop(context, false);
                     });
                   } else {
                     print('on Load Stop: not error URL: \n $url');
