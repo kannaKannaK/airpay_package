@@ -1,6 +1,7 @@
 import 'package:airpay_package/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
 class AirpayHome extends StatefulWidget{
@@ -27,7 +28,7 @@ class _AirpayHomeState extends State<AirpayHome> {
     var protocolDomain = getProtoDomain(widget.user.successUrl);
     List<int> bytes =ascii.encode(protocolDomain);
     var encoded = base64.encode(bytes);
-    var decoded = base64.decode(encoded);
+    // var decoded = base64.decode(encoded);
     /*print("protocolDomain $protocolDomain");
     print("bytes $bytes");
     print("base64encoded : $encoded");
@@ -167,7 +168,7 @@ The navigation delegate is set to block navigation to the youtube website.
                   onPressed: (){
                     _encryptSHA256();
                     Navigator.push(context, MaterialPageRoute(
-                     //   builder:(context) => MyApp()
+                       builder:(context) => InAppWebView()
                     ));
 
                   },

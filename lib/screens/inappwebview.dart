@@ -20,7 +20,7 @@ class AirPay extends StatefulWidget {
 }
 
 class _AirPayState extends State<AirPay> {
-  var URL = 'https://google.com.tr';
+  // var URL = 'https://google.com.tr';
   String url = "";
   double progress = 0;
   var postdata = "";
@@ -160,7 +160,7 @@ class _AirPayState extends State<AirPay> {
     );
   }
 
-  InAppWebViewController _webViewController;
+  // InAppWebViewController _webViewController;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
