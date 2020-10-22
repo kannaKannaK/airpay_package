@@ -98,19 +98,22 @@ class _AirPayState extends State<AirPay> {
         '$privatekey${widget.user.orderid}${widget.user.merchantId}$formattedDate2');
     var checksum = md5.convert(setAllData);
 
-    var params = jsonEncode(<String, dynamic>{
-      'privatekey': privatekey,
-      'orderID': widget.user.orderid,
-      'mercid': widget.user.merchantId,
-      'checksum': checksum,
-      'datetime': formattedDate,
-    });
+    // var params = jsonEncode(<String, dynamic>{
+    //   'privatekey': privatekey,
+    //   'orderID': widget.user.orderid,
+    //   'mercid': widget.user.merchantId,
+    //   'checksum': checksum,
+    //   'datetime': formattedDate,
+    // });
+        var paramsData = utf8.encode(
+        'privatekey=$privatekey&orderid=${widget.user.orderid}&mercid=${widget.user.merchantId}&checksum=$checksum&datetime=$formattedDate');
+
     final url = Uri.parse(urlString);
     final request = http.Request("POST", url);
     request.headers.addAll(<String, String>{
       "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     });
-    request.body = params;
+    request.bodyBytes = paramsData;
 final myTransformer = Xml2Json();
   return await request.send().then((response) {
     return response.toString();
