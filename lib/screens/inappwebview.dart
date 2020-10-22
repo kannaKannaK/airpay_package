@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:airpay_package/model/user.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -84,7 +85,7 @@ class _AirPayState extends State<AirPay> {
   fetchDetails() async {
     String urlString = "https://payments.airpay.co.in/sdk/a.php";
 
-     var date = new DateTime.now();
+    var date = new DateTime.now();
     var format = DateFormat("dd/MM/yyyy HH:mm:ss");
     var formattedDate = format.format(date);
     format = DateFormat("yyyy HH:mm:ss");
@@ -93,10 +94,25 @@ class _AirPayState extends State<AirPay> {
     var temp = utf8.encode(
         '${widget.user.secret}@${widget.user.username}:|:${widget.user.password}');
     var privatekey = sha256.convert(temp);
-    
+
     var setAllData = utf8.encode(
         '$privatekey${widget.user.orderid}${widget.user.merchantId}$formattedDate2');
     var checksum = md5.convert(setAllData);
+
+    FormData formData = new FormData.fromMap({
+      'privatekey': privatekey,
+      'orderID': widget.user.orderid,
+      'mercid': widget.user.merchantId,
+      'checksum': checksum,
+      'datetime': formattedDate,
+    });
+    var response = await Dio().post(urlString, data: formData);
+    print(response);
+    final myTransformer = Xml2Json();
+    myTransformer.parse(response.data);
+    var document = myTransformer.toGData();
+    var data = json.decode(document);
+    print("document $data");
 
     // var params = jsonEncode(<String, dynamic>{
     //   'privatekey': privatekey,
@@ -105,23 +121,23 @@ class _AirPayState extends State<AirPay> {
     //   'checksum': checksum,
     //   'datetime': formattedDate,
     // });
-        var paramsData = utf8.encode(
-        'privatekey=$privatekey&orderid=${widget.user.orderid}&mercid=${widget.user.merchantId}&checksum=$checksum&datetime=$formattedDate');
+    // var paramsData = utf8.encode(
+    // 'privatekey=$privatekey&orderid=${widget.user.orderid}&mercid=${widget.user.merchantId}&checksum=$checksum&datetime=$formattedDate');
 
-    final url = Uri.parse(urlString);
-    final request = http.Request("POST", url);
-    request.headers.addAll(<String, String>{
-      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    });
-    request.bodyBytes = paramsData;
-final myTransformer = Xml2Json();
-  return await request.send().then((response) {
-    return response.stream.bytesToString();
-  }).then((bodyString) {
-    myTransformer.parse(bodyString);
-    var json = myTransformer.toGData();
-    print(json);
-  });
+//     final url = Uri.parse(urlString);
+//     final request = http.Request("POST", url);
+//     request.headers.addAll(<String, String>{
+//       "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+//     });
+//     request.bodyBytes = paramsData;
+// final myTransformer = Xml2Json();
+//   return await request.send().then((response) {
+//     return response.stream.bytesToString();
+//   }).then((bodyString) {
+//     myTransformer.parse(bodyString);
+//     var json = myTransformer.toGData();
+//     print(json);
+//   });
   }
   // });
   //   if (response.statusCode != 200)
@@ -243,11 +259,15 @@ final myTransformer = Xml2Json();
               // padding: EdgeInsets.all(10.0),
               child: progress < 1.0
                   ? Container(
-                    height: 40,
-        color: Colors.transparent,
-        child: Center(
-          child: Loading(indicator: LineScalePulseOutIndicator(), size: 40.0, color: Colors.blue[900]),
-        )) : Container()),
+                      height: 40,
+                      color: Colors.transparent,
+                      child: Center(
+                        child: Loading(
+                            indicator: LineScalePulseOutIndicator(),
+                            size: 40.0,
+                            color: Colors.blue[900]),
+                      ))
+                  : Container()),
           Expanded(
             child: InAppWebView(
               //initialUrl: URL,
@@ -270,10 +290,11 @@ final myTransformer = Xml2Json();
                   print("onLoadStart : $url");
                   var succesPath = getProtoDomain(widget.user.successUrl);
                   var webURLPath = getProtoDomain(url);
-                  if (succesPath.contains("http://") && webURLPath.contains("https://")) {
+                  if (succesPath.contains("http://") &&
+                      webURLPath.contains("https://")) {
                     webURLPath = webURLPath.replaceAll("https://", "http://");
-                  }
-                  else if (succesPath.contains("https://") && webURLPath.contains("http://")) {
+                  } else if (succesPath.contains("https://") &&
+                      webURLPath.contains("http://")) {
                     webURLPath = webURLPath.replaceAll("http://", "https://");
                   }
 
@@ -283,8 +304,7 @@ final myTransformer = Xml2Json();
                     Navigator.pop(context, true);
                     // widget.callback(true);
                     print("onLoadStart : Success");
-                  } else if (widget.user.failedUrl ==
-                      webURLPath) {
+                  } else if (widget.user.failedUrl == webURLPath) {
                     Navigator.pop(context, false);
                     print("onLoadStart : Failed");
                   }
