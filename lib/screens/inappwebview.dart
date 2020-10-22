@@ -100,18 +100,24 @@ class _AirPayState extends State<AirPay> {
 
     FormData formData = new FormData.fromMap({
       'privatekey': privatekey,
-      'orderID': widget.user.orderid,
+      'orderid': widget.user.orderid,
       'mercid': widget.user.merchantId,
       'checksum': checksum,
       'datetime': formattedDate,
     });
-    var response = await Dio().post(urlString, data: formData);
+    Dio dio = new Dio();
+    dio.options.headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8';
+
+    var response = await dio.post(urlString, data: formData);
     print(response);
     final myTransformer = Xml2Json();
-    myTransformer.parse(response.data);
-    var document = myTransformer.toGData();
+    var stingDAta = response.data.toString();
+    stingDAta = stingDAta.replaceAll("<![CDATA[", "").replaceAll("]]>", "");
+    myTransformer.parse(stingDAta);
+    var document = myTransformer.toBadgerfish();
     var data = json.decode(document);
     print("document $data");
+    Navigator.pop(context, data);
 
     // var params = jsonEncode(<String, dynamic>{
     //   'privatekey': privatekey,
@@ -299,8 +305,7 @@ class _AirPayState extends State<AirPay> {
 
                   if (succesPath == webURLPath) {
                     // _webViewController.stopLoading();
-                    // fetchDetails();
-                    Navigator.pop(context, true);
+                     fetchDetails();
                     // widget.callback(true);
                     print("onLoadStart : Success");
                   } else if (widget.user.failedUrl == webURLPath) {
