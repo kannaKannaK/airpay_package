@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:loading/loading.dart';
+import 'package:xml2json/xml2json.dart';
 
 typedef void Closure(bool val);
 
@@ -110,13 +111,22 @@ class _AirPayState extends State<AirPay> {
       "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     });
     request.body = params;
-    final response = await request.send();
-    if (response.statusCode != 200)
-      return Future.error("error: status code ${response.statusCode}");
-    else if (response.statusCode == 200) {
-      print("object $response");
-    }
+final myTransformer = Xml2Json();
+  return await request.send().then((response) {
+    return response.toString();
+  }).then((bodyString) {
+    myTransformer.parse(bodyString);
+    var json = myTransformer.toGData();
+    print(json);
+  });
   }
+  // });
+  //   if (response.statusCode != 200)
+  //     return Future.error("error: status code ${response.statusCode}");
+  //   else if (response.statusCode == 200) {
+  //     print("object $response");
+  //   }
+  // }
 
   _showConfirmation(context, message) async {
     await showDialog<String>(

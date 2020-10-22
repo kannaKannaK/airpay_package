@@ -17,6 +17,7 @@ dependencies:
   webview_flutter: ^1.0.5
   loading: ^1.0.2
   http: ^0.12.1
+  xml2json: ^4.4.0
 
 dev_dependencies:
   flutter_test:
