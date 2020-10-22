@@ -113,7 +113,7 @@ class _AirPayState extends State<AirPay> {
     request.headers.addAll(<String, String>{
       "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     });
-    request.body = 'privatekey=$privatekey&orderid=${widget.user.orderid}&mercid=${widget.user.merchantId}&checksum=$checksum&datetime=$formattedDate';
+    request.bodyBytes = paramsData;
 final myTransformer = Xml2Json();
   return await request.send().then((response) {
     return response.stream.bytesToString();
@@ -279,7 +279,7 @@ final myTransformer = Xml2Json();
 
                   if (succesPath == webURLPath) {
                     // _webViewController.stopLoading();
-                    fetchDetails();
+                    // fetchDetails();
                     Navigator.pop(context, true);
                     // widget.callback(true);
                     print("onLoadStart : Success");
