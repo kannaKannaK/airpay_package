@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:crypto/crypto.dart';
 import 'package:intl/intl.dart';
+import 'package:loading/indicator/line_scale_pulse_out_indicator.dart';
 import 'dart:convert';
 
-typedef void Closure(bool val);
+import 'package:loading/loading.dart';
 
+typedef void Closure(bool val);
 
 class AirPay extends StatefulWidget {
   final User user;
@@ -127,7 +129,7 @@ class _AirPayState extends State<AirPay> {
                   new Container(
                     margin: EdgeInsets.all(0),
                     child: RaisedButton(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(2.0),
                       onPressed: () {
                         Navigator.pop(context);
                         Navigator.pop(context, false);
@@ -142,7 +144,7 @@ class _AirPayState extends State<AirPay> {
                   new Container(
                     margin: EdgeInsets.all(0),
                     child: RaisedButton(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(2.0),
                       onPressed: () {
                         Navigator.pop(context);
                         // Navigator.pop(context, false);
@@ -188,8 +190,12 @@ class _AirPayState extends State<AirPay> {
           Container(
               // padding: EdgeInsets.all(10.0),
               child: progress < 1.0
-                  ? LinearProgressIndicator(value: progress)
-                  : Container()),
+                  ? Container(
+                    height: 40,
+        color: Colors.transparent,
+        child: Center(
+          child: Loading(indicator: LineScalePulseOutIndicator(), size: 60.0, color: Colors.blue[900]),
+        )) : Container()),
           Expanded(
             child: InAppWebView(
               //initialUrl: URL,
