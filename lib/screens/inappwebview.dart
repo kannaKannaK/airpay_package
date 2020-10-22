@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:crypto/crypto.dart';
 import 'package:intl/intl.dart';
-import 'package:loading/indicator/line_scale_pulse_out_indicator.dart';
+import 'package:loading/indicator/line_scale_party_indicator.dart';
 import 'dart:convert';
 
 import 'package:loading/loading.dart';
@@ -194,7 +194,7 @@ class _AirPayState extends State<AirPay> {
                     height: 40,
         color: Colors.transparent,
         child: Center(
-          child: Loading(indicator: LineScalePulseOutIndicator(), size: 40.0, color: Colors.blue[900]),
+          child: Loading(indicator: LineScalePartyIndicator(), size: 40.0, color: Colors.blue[900]),
         )) : Container()),
           Expanded(
             child: InAppWebView(
@@ -230,7 +230,7 @@ class _AirPayState extends State<AirPay> {
                     Navigator.pop(context, true);
                     // widget.callback(true);
                     print("onLoadStart : Success");
-                  } else if (getProtoDomain(widget.user.failedUrl) ==
+                  } else if (widget.user.failedUrl ==
                       webURLPath) {
                     Navigator.pop(context, false);
                     print("onLoadStart : Failed");
