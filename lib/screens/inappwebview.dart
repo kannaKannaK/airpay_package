@@ -218,10 +218,10 @@ class _AirPayState extends State<AirPay> {
                   print("onLoadStart : $url");
                   var succesPath = getProtoDomain(widget.user.successUrl);
                   var webURLPath = getProtoDomain(url);
-                  if (succesPath.contains("http://") && !webURLPath.contains("http://")) {
+                  if (succesPath.contains("http://") && webURLPath.contains("https://")) {
                     webURLPath = webURLPath.replaceAll("https://", "http://");
                   }
-                  else if (succesPath.contains("https://") && !webURLPath.contains("https://")) {
+                  else if (succesPath.contains("https://") && webURLPath.contains("http://")) {
                     webURLPath = webURLPath.replaceAll("http://", "https://");
                   }
 
