@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:crypto/crypto.dart';
 import 'package:intl/intl.dart';
-import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:loading/indicator/line_scale_pulse_out_indicator.dart';
 
 import 'package:loading/loading.dart';
 import 'package:xml2json/xml2json.dart';
@@ -246,7 +246,7 @@ final myTransformer = Xml2Json();
                     height: 40,
         color: Colors.transparent,
         child: Center(
-          child: Loading(indicator: BallPulseIndicator(), size: 40.0, color: Colors.blue[900]),
+          child: Loading(indicator: LineScalePulseOutIndicator(), size: 40.0, color: Colors.blue[900]),
         )) : Container()),
           Expanded(
             child: InAppWebView(
