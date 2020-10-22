@@ -116,7 +116,7 @@ class _AirPayState extends State<AirPay> {
     request.bodyBytes = paramsData;
 final myTransformer = Xml2Json();
   return await request.send().then((response) {
-    return response.toString();
+    return response.stream.bytesToString();
   }).then((bodyString) {
     myTransformer.parse(bodyString);
     var json = myTransformer.toGData();
