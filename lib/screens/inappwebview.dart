@@ -8,7 +8,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:crypto/crypto.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:loading/indicator/line_scale_pulse_out_indicator.dart';
 
 import 'package:loading/loading.dart';
