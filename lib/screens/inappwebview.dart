@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:crypto/crypto.dart';
 import 'package:intl/intl.dart';
-import 'package:loading/indicator/line_scale_party_indicator.dart';
+import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -85,7 +85,7 @@ class _AirPayState extends State<AirPay> {
     String urlString = "https://payments.airpay.co.in/sdk/a.php";
 
      var date = new DateTime.now();
-    var format = DateFormat("yyyy-MM-dd HH:mm:ss");
+    var format = DateFormat("dd/MM/yyyy HH:mm:ss");
     var formattedDate = format.format(date);
     format = DateFormat("yyyy HH:mm:ss");
     var formattedDate2 = format.format(date);
@@ -246,7 +246,7 @@ final myTransformer = Xml2Json();
                     height: 40,
         color: Colors.transparent,
         child: Center(
-          child: Loading(indicator: LineScalePartyIndicator(), size: 40.0, color: Colors.blue[900]),
+          child: Loading(indicator: BallPulseIndicator(), size: 40.0, color: Colors.blue[900]),
         )) : Container()),
           Expanded(
             child: InAppWebView(
