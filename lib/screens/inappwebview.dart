@@ -24,8 +24,6 @@ class _AirPayState extends State<AirPay> {
   String url = "";
   double progress = 0;
   var postdata = "";
-  // var domainNameFrom = getProtoDomain(widget.user.successUrl);
-  // var failuerdomainNameFrom = getProtoDomain(widget.user.failedUrl);
   String loadData() {
     var date = new DateTime.now();
     var format = DateFormat("yyyy-MM-dd");
@@ -37,22 +35,12 @@ class _AirPayState extends State<AirPay> {
         '${widget.user.email}${widget.user.fname}${widget.user.lname}${widget.user.fulladdress}${widget.user.city}${widget.user.state}${widget.user.country}${widget.user.amount}${widget.user.orderid}$formattedDate$privatekey');
     var checksum = md5.convert(setAllData);
     var protocolDomain = getProtoDomain(widget.user
-        .protoDomain); //'http://www.theroadiesstore.in/airpay/transact/response'); //https://apmerchantapp.nowpay.co.in/index.html
+        .protoDomain);
     List<int> bytes = ascii.encode(protocolDomain);
     var encoded = base64
-        .encode(bytes); // 'https://apmerchantapp.nowpay.co.in/index.html';
+        .encode(bytes);
     var user = widget.user;
-    /*  postdata = 'mer_dom=$encoded&currency=${user.currency}&isocurrency=${user.isCurrency}'+
-        '&orderid=${user.orderid}&privatekey=${privatekey.toString()}&checksum=${checksum.toString()}'
-        +'mercid=${user.merchantId}&buyerEmail=${user.email}&buyerPhone=${user.phone}'
-        +'&buyerFirstName=${user.fname}&buyerLastName=${user.lname}&buyerAddress=${user.fulladdress}'
-        +'&buyerCity=${user.city}&buyerState=${user.state}&buyerCountry=${user.country}'
-        +'&buyerPinCode=${user.pincode}&amount=${user.amount}&chmod=${user.chMode}'
-        +'&customvar=${user.customVar}&txnsubtype=${user.txnSubtype}'
-        +'&wallet=${user.wallet}${user.txnSubtype}&surchargeAmount=';
-    print('post data : $postdata');*/
-    // print('encoded : ${utf8.encode(postdata)}');
-    // return utf8.encode(postdata);
+   
     var url = "<!DOCTYPE html>" +
         "<html>" +
         "<body onload='document.frm1.submit()'>" +
@@ -235,24 +223,13 @@ class _AirPayState extends State<AirPay> {
                     print("onLoadStart : Success");
                   } else if (getProtoDomain(widget.user.failedUrl) ==
                       getProtoDomain(url)) {
-                    // _webViewController.stopLoading();
                     Navigator.pop(context, false);
-                    // widget.callback(false);
                     print("onLoadStart : Failed");
                   }
                 });
               },
               onLoadStop:
                   (InAppWebViewController controller, String url) async {
-                /* int result1 = await controller.evaluateJavascript(source: "10 + 20;");
-                        print(result1); // 30
-
-                        String result2 = await controller.evaluateJavascript(source: """
-                        var firstname = "Foo";
-                        var lastname = "Bar";
-                        firstname + " " + lastname;
-                      """);
-                        print(result2);*/
                 String ht = await controller.evaluateJavascript(
                     source:
                         "javascript:window.droid.print(document.getElementsByClassName('alert')[0].innerHTML);");
@@ -281,75 +258,8 @@ class _AirPayState extends State<AirPay> {
               },
             ),
           ),
-          // ButtonBar(alignment: MainAxisAlignment.center, children: <Widget>[
-          //   RaisedButton(
-          //     child: Icon(Icons.close),
-          //     onPressed: () {
-          //       _showConfirmation(
-          //           context, "Did you want to cancel this transaction ?");
-          //       // if (webView != null) {
-          //       //   webView.goBack();
-          //       // }
-          //     },
-          //   )
-          // ]),
         ])),
       ),
     );
   }
 }
-
-/* child:InAppWebView(
-                      initialUrl: URL,
-                      initialData: InAppWebViewInitialData(
-                         // data: loadData(),
-                      ),
-                      initialOptions: InAppWebViewGroupOptions(
-                          crossPlatform: InAppWebViewOptions(
-                            debuggingEnabled: true,
-                          )
-                      ),
-                      onWebViewCreated: (InAppWebViewController controller) {
-                        _webViewController = controller;
-                     //   _webViewController.postUrl(url: "https://payments.airpay.ninja/pay/index.php", postData: loadData());
-                        _webViewController.addJavaScriptHandler(handlerName:'handlerFoo', callback: (args) {
-                          // return data to JavaScript side!
-                          return {
-                            'bar': 'bar_value', 'baz': 'baz_value'
-                          };
-                        });
-
-                        _webViewController.addJavaScriptHandler(handlerName: 'handlerFooWithArgs', callback: (args) {
-                          print(args);
-                          // it will print: [1, true, [bar, 5], {foo: baz}, {bar: bar_value, baz: baz_value}]
-                        });
-                      },
-                      onLoadStart:(InAppWebViewController controller, String url) {
-                        setState(() {
-                          this.url = url;
-                          setState(() {
-                            print('onLoadStart current url : $url');
-                          });
-                        });
-                      },
-                      onLoadStop: (InAppWebViewController controller, String url) async {
-                        setState(() {
-                          this.url = url;
-                          setState(() {
-                            print('onLoadStop current url : $url');
-                          });
-                        });
-                      },
-                      onProgressChanged: (InAppWebViewController controller, int progress) {
-                        setState(() {
-                          this.progress = progress / 100;
-                        });
-                      },
-                      onConsoleMessage: (controller, consoleMessage) {
-                        print(consoleMessage);
-                        // it will print: {message: {"bar":"bar_value","baz":"baz_value"}, messageLevel: 1}
-                      },
-                      onReceivedServerTrustAuthRequest: (InAppWebViewController controller, ServerTrustChallenge challenge) async {
-                        return ServerTrustAuthResponse(action: ServerTrustAuthResponseAction.PROCEED);
-                      },
-                    ),*/
