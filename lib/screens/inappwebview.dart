@@ -6,11 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:crypto/crypto.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
-import 'package:loading/indicator/line_scale_pulse_out_indicator.dart';
-
-import 'package:loading/loading.dart';
 import 'package:xml2json/xml2json.dart';
 
 typedef void Closure(bool val);
@@ -106,7 +104,8 @@ class _AirPayState extends State<AirPay> {
       'datetime': formattedDate,
     });
     Dio dio = new Dio();
-    dio.options.headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8';
+    dio.options.headers['Accept'] =
+        'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8';
 
     var response = await dio.post(urlString, data: formData);
     print(response);
@@ -263,15 +262,10 @@ class _AirPayState extends State<AirPay> {
           Container(
               // padding: EdgeInsets.all(10.0),
               child: progress < 1.0
-                  ? Container(
-                      height: 40,
-                      color: Colors.transparent,
-                      child: Center(
-                        child: Loading(
-                            indicator: LineScalePulseOutIndicator(),
-                            size: 40.0,
-                            color: Colors.blue[900]),
-                      ))
+                  ? SpinKitRotatingCircle(
+                      color: Colors.blue[900],
+                      size: 50.0,
+                    )
                   : Container()),
           Expanded(
             child: InAppWebView(
@@ -305,7 +299,7 @@ class _AirPayState extends State<AirPay> {
 
                   if (succesPath == webURLPath) {
                     // _webViewController.stopLoading();
-                     fetchDetails();
+                    fetchDetails();
                     // widget.callback(true);
                     print("onLoadStart : Success");
                   } else if (widget.user.failedUrl == webURLPath) {
