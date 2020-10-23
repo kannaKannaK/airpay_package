@@ -114,8 +114,12 @@ class _AirPayState extends State<AirPay> {
     myTransformer.parse(stingDAta);
     var document = myTransformer.toParker();
     var data = json.decode(document);
-    Transaction transaction = Transaction.fromJson(data);
-    print("document $data");
+    Transaction transaction = Transaction();
+    transaction.sTATUS = '500';
+    if (data != null && data['TRANSACTION'] != null) {
+      transaction = Transaction.fromJson(data['TRANSACTION']);
+    }
+    print("Transaction $data");
     Navigator.pop(context, transaction);
   }
 
