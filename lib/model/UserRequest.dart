@@ -1,4 +1,5 @@
 class UserRequest {
+  bool isStaging;
   String fname;
   String lname;
   String phone;
@@ -25,6 +26,7 @@ class UserRequest {
   String failedUrl;
   UserRequest(
       {this.username,
+      this.isStaging,
       this.password,
       this.secret,
       this.merchantId,

@@ -15,7 +15,7 @@ typedef void Closure(bool val);
 
 class AirPay extends StatefulWidget {
   final UserRequest user;
-final VoidCallback onTap;
+  final VoidCallback onTap;
 
   AirPay({Key key, @required this.user, this.onTap}) : super(key: key);
   @override
@@ -42,10 +42,25 @@ class _AirPayState extends State<AirPay> {
     var encoded = base64.encode(bytes);
     var user = widget.user;
 
+    String productionURL = "https://payments.airpay.co.in/pay/index.php";
+    String productionFailedURL = "https://payments.airpay.co.in/error.php";
+
+    // String productionVPAURL = "https://payments.airpay.co.in/upi/v.php";
+    String stagingURL = "https://payments.airpay.ninja/pay/index.php";
+    String stagingFailedURL = "https://payments.airpay.ninja/error.php";
+    // String stagingVPAURL = "https://payments.airpay.ninja/upi/v.php";
+
+    var isGateWay = (user.isStaging != null && user.isStaging == true)
+        ? productionURL
+        : stagingURL;
+    user.failedUrl = (user.isStaging != null && user.isStaging == true)
+        ? productionFailedURL
+        : stagingFailedURL;
+
     var url = "<!DOCTYPE html>" +
         "<html>" +
         "<body onload='document.frm1.submit()'>" +
-        "<form action='https://payments.airpay.co.in/pay/index.php' method='post' name='frm1'>" +
+        "<form action='$isGateWay' method='post' name='frm1'>" +
         "  <input type='hidden' name='mer_dom' value='$encoded'><br>" +
         "  <input type='hidden' name='currency' value='${user.currency}'><br>" +
         "  <input type='hidden' name='isocurrency' value='${user.isCurrency}'><br>" +
@@ -80,7 +95,15 @@ class _AirPayState extends State<AirPay> {
   }
 
   fetchDetails() async {
-    String urlString = "https://payments.airpay.co.in/sdk/a.php";
+    var user = widget.user;
+
+    String stagingDataURL = "https://payments.airpay.ninja/sdk/a.php";
+    String productionDataURL = "https://payments.airpay.co.in/sdk/a.php";
+    var isGateWay = (user.isStaging != null && user.isStaging == true)
+        ? stagingDataURL
+        : productionDataURL;
+
+    String urlString = isGateWay;
     var date = new DateTime.now();
     var format = DateFormat("dd/MM/yyyy HH:mm:ss");
     var formattedDate = format.format(date);
@@ -298,7 +321,7 @@ class _AirPayState extends State<AirPay> {
                       Navigator.pop(context, false);
                     });
                   } else {
-                    print('on Load Stop: not error URL: \n $url');
+                    print('on Load Stop: not error URL: $url');
                   }
                 });
               },
