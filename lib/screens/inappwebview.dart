@@ -317,8 +317,8 @@ class _AirPayState extends State<AirPay> {
                   if (url
                       .startsWith(failurePath)) {
                     setState(() {
-                      controller.loadUrl(url: ht);
-                      print('ht: $url');
+                      // controller.loadUrl(url: ht);
+                      // print('ht: $url');
                       print('onLoad Stop in - $url');
                       Navigator.pop(context, false);
                     });
