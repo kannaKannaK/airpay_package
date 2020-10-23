@@ -113,7 +113,7 @@ class _AirPayState extends State<AirPay> {
     var stingDAta = response.data.toString();
     stingDAta = stingDAta.replaceAll("<![CDATA[", "").replaceAll("]]>", "");
     myTransformer.parse(stingDAta);
-    var document = myTransformer.toBadgerfish();
+    var document = myTransformer.toGData();
     var data = json.decode(document);
     print("document $data");
     Navigator.pop(context, data);
@@ -262,7 +262,7 @@ class _AirPayState extends State<AirPay> {
           Container(
               // padding: EdgeInsets.all(10.0),
               child: progress < 1.0
-                  ? SpinKitRotatingCircle(
+                  ? SpinKitCircle(
                       color: Colors.blue[900],
                       size: 50.0,
                     )
