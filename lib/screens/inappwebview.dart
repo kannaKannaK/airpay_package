@@ -312,8 +312,10 @@ class _AirPayState extends State<AirPay> {
 
                 setState(() {
                   this.url = url;
+                  var failurePath = widget.user.failedUrl;//getProtoDomain(widget.user.failedUrl);
+
                   if (url
-                      .startsWith('https://payments.airpay.ninja/error.php')) {
+                      .startsWith(failurePath)) {
                     setState(() {
                       controller.loadUrl(url: ht);
                       print('ht: $url');
