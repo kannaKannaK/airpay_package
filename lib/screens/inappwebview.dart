@@ -116,8 +116,10 @@ class _AirPayState extends State<AirPay> {
     var data = json.decode(document);
     Transaction transaction = Transaction();
     transaction.sTATUS = '500';
-    if (data != null && data['TRANSACTION'] != null) {
-      transaction = Transaction.fromJson(data['TRANSACTION']);
+    if (data != null && data['RESPONSE'] != null) {
+      if (data['RESPONSE']['TRANSACTION'] != null) {
+        transaction = Transaction.fromJson(data['RESPONSE']['TRANSACTION']);
+      }
     }
     print("Transaction $data");
     Navigator.pop(context, transaction);
