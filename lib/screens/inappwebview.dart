@@ -15,9 +15,9 @@ typedef void Closure(bool val);
 
 class AirPay extends StatefulWidget {
   final UserRequest user;
-  final Closure callback;
+final VoidCallback onTap;
 
-  AirPay({Key key, @required this.user, this.callback}) : super(key: key);
+  AirPay({Key key, @required this.user, this.onTap}) : super(key: key);
   @override
   _AirPayState createState() => new _AirPayState();
 }
@@ -123,6 +123,7 @@ class _AirPayState extends State<AirPay> {
     }
     print("Transaction $data");
     Navigator.pop(context, transaction);
+    widget.onTap;
   }
 
   _showConfirmation(context, message) async {
