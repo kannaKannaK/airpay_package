@@ -83,7 +83,9 @@ class Transaction {
     cARDDETAILS = json['CARD_DETAILS'] != null
         ? new CARDDETAILS.fromJson(json['CARD_DETAILS'])
         : null;
-    eMIDETAILS = json['EMI_DETAILS'] != null ? json['EMI_DETAILS'] : "";
+    if (json['EMI_DETAILS'] != null && json['EMI_DETAILS'] is String) {
+      eMIDETAILS = json['EMI_DETAILS'];
+    }
     mERCHANTNAME = json['MERCHANT_NAME'];
     if (json['SETTLEMENT_DATE'] != null) {
       sETTLEMENTDATE = json['SETTLEMENT_DATE'];
