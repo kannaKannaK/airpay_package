@@ -51,11 +51,11 @@ class _AirPayState extends State<AirPay> {
     // String stagingVPAURL = "https://payments.airpay.ninja/upi/v.php";
 
     var isGateWay = (user.isStaging != null && user.isStaging == true)
-        ? productionURL
-        : stagingURL;
+        ? stagingURL
+        : productionURL;
     user.failedUrl = (user.isStaging != null && user.isStaging == true)
-        ? productionFailedURL
-        : stagingFailedURL;
+        ? stagingFailedURL
+        : productionFailedURL;
 
     var url = "<!DOCTYPE html>" +
         "<html>" +
