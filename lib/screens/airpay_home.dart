@@ -1,4 +1,4 @@
-import 'package:airpay_package/model/user.dart';
+import 'package:airpay_package/model/UserRequest.dart';
 import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'dart:convert';
 
 class AirpayHome extends StatefulWidget {
-  final User user;
+  final UserRequest user;
   AirpayHome({Key key, @required this.user}) : super(key: key);
 
   @override

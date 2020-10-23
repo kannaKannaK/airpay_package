@@ -1,6 +1,6 @@
 import 'dart:io';
-
-import 'package:airpay_package/model/user.dart';
+import 'package:airpay_package/model/transaction.dart';
+import 'package:airpay_package/model/UserRequest.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ import 'package:xml2json/xml2json.dart';
 typedef void Closure(bool val);
 
 class AirPay extends StatefulWidget {
-  final User user;
+  final UserRequest user;
   final Closure callback;
 
   AirPay({Key key, @required this.user, this.callback}) : super(key: key);
@@ -81,7 +81,6 @@ class _AirPayState extends State<AirPay> {
 
   fetchDetails() async {
     String urlString = "https://payments.airpay.co.in/sdk/a.php";
-
     var date = new DateTime.now();
     var format = DateFormat("dd/MM/yyyy HH:mm:ss");
     var formattedDate = format.format(date);
@@ -113,43 +112,12 @@ class _AirPayState extends State<AirPay> {
     var stingDAta = response.data.toString();
     stingDAta = stingDAta.replaceAll("<![CDATA[", "").replaceAll("]]>", "");
     myTransformer.parse(stingDAta);
-    var document = myTransformer.toGData();
+    var document = myTransformer.toParker();
     var data = json.decode(document);
+    Transaction transaction = Transaction.fromJson(data);
     print("document $data");
-    Navigator.pop(context, data);
-
-    // var params = jsonEncode(<String, dynamic>{
-    //   'privatekey': privatekey,
-    //   'orderID': widget.user.orderid,
-    //   'mercid': widget.user.merchantId,
-    //   'checksum': checksum,
-    //   'datetime': formattedDate,
-    // });
-    // var paramsData = utf8.encode(
-    // 'privatekey=$privatekey&orderid=${widget.user.orderid}&mercid=${widget.user.merchantId}&checksum=$checksum&datetime=$formattedDate');
-
-//     final url = Uri.parse(urlString);
-//     final request = http.Request("POST", url);
-//     request.headers.addAll(<String, String>{
-//       "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-//     });
-//     request.bodyBytes = paramsData;
-// final myTransformer = Xml2Json();
-//   return await request.send().then((response) {
-//     return response.stream.bytesToString();
-//   }).then((bodyString) {
-//     myTransformer.parse(bodyString);
-//     var json = myTransformer.toGData();
-//     print(json);
-//   });
+    Navigator.pop(context, transaction);
   }
-  // });
-  //   if (response.statusCode != 200)
-  //     return Future.error("error: status code ${response.statusCode}");
-  //   else if (response.statusCode == 200) {
-  //     print("object $response");
-  //   }
-  // }
 
   _showConfirmation(context, message) async {
     await showDialog<String>(
@@ -298,9 +266,7 @@ class _AirPayState extends State<AirPay> {
                   }
 
                   if (succesPath == webURLPath) {
-                    // _webViewController.stopLoading();
                     fetchDetails();
-                    // widget.callback(true);
                     print("onLoadStart : Success");
                   } else if (widget.user.failedUrl == webURLPath) {
                     Navigator.pop(context, false);
