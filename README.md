@@ -1,16 +1,82 @@
-# airpayPackage
+# Airpay Flutter
 
-A Airpay Flutter package project.
+Airpay Flutter plugin for payment integeration.
+
 
 ## Usage
 Add `airpay_package` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
 
 You can now include a airpayPackage widget in your widget tree. See the
-[airpayPackage](https://pub.dev/packages/airpay_package/score)
+[airpayPackage](https://pub.dev/packages/airpay_package/)
 widget's Dartdoc for more details on how to use the widget.
 
+## Installation
 
-## Android and iOS Platform Views
+This plugin is available on Pub: [https://pub.dev/packages/airpay_package/](https://pub.dev/packages/airpay_package/)
+
+Add this to `dependencies` in your app's `pubspec.yaml`
+
+```yaml
+airpay_package: ^1.0.0
+```
+
+**Note**: For android make sure that the minimum API level for your app is 19 or higher.
+
+## Usage
+
+- Learn about the <a href="https://www.airpay.co.in/" target="_blank">Airpay Payment</a>.
+ - Sign up <a href="https://www.airpay.co.in/services/subscription">Airpay Account</a> and generate the API Keys from the Razorpay Dashboard. Using the Test keys helps simulate a sandbox environment. No actual monetary transaction happens when using the Test keys. Use Live keys once you have thoroughly tested the application and are ready to go live.
+ 
+
+```dart
+String domainPath = '##PLACE_YOUR_KEY_HERE##';
+
+    String kAirPaySecretKey = '##PLACE_YOUR_KEY_HERE##';
+
+    String kAirPayUserName = '##PLACE_YOUR_KEY_HERE##';
+
+    String kAirPayPassword = '##PLACE_YOUR_KEY_HERE##';
+
+    String merchantID = '##PLACE_YOUR_KEY_HERE##';
+
+    String successURL = '##PLACE_YOUR_KEY_HERE##';
+
+    UserRequest user = UserRequest(
+        username: kAirPayUserName,
+        password: kAirPayPassword,
+        secret: kAirPaySecretKey,
+        merchantId: merchantID,
+        protoDomain: domainPath,
+        fname: fname.text,
+        lname: lname.text,
+        email: email.text,
+        phone: phone.text,
+        fulladdress: fullAddress.text,
+        pincode: pincode.text,
+        orderid: orderId.text,
+        amount: amount.text,
+        city: city.text,
+        state: state.text,
+        country: country.text,
+        currency: "356",
+        isCurrency: "INR",
+        chMode: "",
+        customVar: "",
+        txnSubtype: "",
+        wallet: "0",
+        isStaging: false, //True for the Staging
+        successUrl: successURL);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => new AirPay(
+            user: user,
+            closure: (status, response) => {onComplete(status, response)}),
+      ),
+    );
+```
+
+## Android and iOS Platform Example Views
 The Airpay flutter package is a lighweight WebView is relying on
 [Platform Views](https://flutter.dev/docs/development/platform-integration/platform-views) to embed
 the Android’s webview within the Flutter app. By default a Virtual Display based platform view
