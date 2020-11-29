@@ -35,7 +35,7 @@ In the AndroidManifest.xml file located at android/app/src/main you need to add 
  
 
 ```dart
-String domainPath = '##PLACE_YOUR_KEY_HERE##';
+    String domainPath = '##PLACE_YOUR_KEY_HERE##';
 
     String kAirPaySecretKey = '##PLACE_YOUR_KEY_HERE##';
 
@@ -335,7 +335,6 @@ class _HomeState extends State<Home> {
                               keyboardType: TextInputType.name,
                               decoration: InputDecoration(
                                 hintText: 'First Name',
-                                //   contentPadding: EdgeInsets.all(2.0),
                                 hintStyle: TextStyle(
                                     color: Colors.grey, fontSize: 15.0),
                               ),
@@ -349,7 +348,6 @@ class _HomeState extends State<Home> {
                                 keyboardType: TextInputType.name,
                                 decoration: InputDecoration(
                                   hintText: 'Last Name',
-                                  // contentPadding: EdgeInsets.all(2.0),
                                   hintStyle: TextStyle(
                                       color: Colors.grey, fontSize: 15.0),
                                 ),
@@ -366,7 +364,6 @@ class _HomeState extends State<Home> {
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               hintText: 'Email Id',
-                              // contentPadding: EdgeInsets.all(2.0),
                               hintStyle:
                                   TextStyle(color: Colors.grey, fontSize: 15.0),
                             ),
@@ -381,7 +378,6 @@ class _HomeState extends State<Home> {
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               hintText: 'Phone',
-                              // contentPadding: EdgeInsets.all(2.0),
                               hintStyle:
                                   TextStyle(color: Colors.grey, fontSize: 15.0),
                             ),
