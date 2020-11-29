@@ -17,6 +17,7 @@ dependencies:
   flutter_spinkit: ^4.1.2+1
   xml2json: ^4.4.0
   dio: ^3.0.10
+  connectivity: ^2.0.2
   #Example
   alert_dialog: ^0.1.0
 

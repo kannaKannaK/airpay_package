@@ -103,43 +103,55 @@ class _AirPayState extends State<AirPay> {
   @override
   void initState() {
     super.initState();
+    checkConnection();
+    Future.delayed(Duration.zero, () {
+      String errMsg = '';
+      if (widget.user == null) {
+        errMsg = 'Kindly enter your AirPay details to proceed';
+      }
+      if (widget.user.protoDomain == null || widget.user.protoDomain.isEmpty) {
+        errMsg = 'Kindly enter your AirPay protoDomain to proceed';
+      } else if (widget.user.merchantId == null ||
+          widget.user.merchantId.isEmpty) {
+        errMsg = 'Kindly enter your AirPay MerchantID to proceed';
+      } else if (widget.user.secret == null || widget.user.secret.isEmpty) {
+        errMsg = 'Kindly enter your AirPay secretID to proceed';
+      } else if (widget.user.successUrl == null ||
+          widget.user.successUrl.isEmpty) {
+        errMsg = 'Kindly enter your AirPay SuccessURL to proceed';
+      } else if (widget.user.failedUrl == null ||
+          widget.user.failedUrl.isEmpty) {
+        errMsg = 'Kindly enter your AirPay failedUrl to proceed';
+      }
+      if (errMsg.isNotEmpty) {
+        isProceed = false;
+        _showAlert(
+            context,
+            errMsg +
+                '\n to proceed with the demo app you must enter the required details to proceed.');
+        print(errMsg);
+        return;
+      } else {
+        isProceed = true;
+      }
+      _handleLoad(1);
+      if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+      this.payURL = Uri.dataFromString(loadData(),
+              mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
+          .toString();
+    });
+  }
 
-  Future.delayed(Duration.zero, () {
-
-    String errMsg = '';
-    if (widget.user == null) {
-      errMsg = 'Kindly enter your AirPay details to proceed';
+  checkConnection() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+      }
+    } on SocketException catch (_) {
+      _showAlert(context, 'No Internet');
+      print('not connected');
     }
-    if (widget.user.protoDomain == null || widget.user.protoDomain.isEmpty) {
-      errMsg = 'Kindly enter your AirPay protoDomain to proceed';
-    } else if (widget.user.merchantId == null ||
-        widget.user.merchantId.isEmpty) {
-      errMsg = 'Kindly enter your AirPay MerchantID to proceed';
-    } else if (widget.user.secret == null || widget.user.secret.isEmpty) {
-      errMsg = 'Kindly enter your AirPay secretID to proceed';
-    } else if (widget.user.successUrl == null ||
-        widget.user.successUrl.isEmpty) {
-      errMsg = 'Kindly enter your AirPay SuccessURL to proceed';
-    } else if (widget.user.failedUrl == null || widget.user.failedUrl.isEmpty) {
-      errMsg = 'Kindly enter your AirPay failedUrl to proceed';
-    }
-    if (errMsg.isNotEmpty) {
-      isProceed = false;
-      _showAlert(
-          context,
-          errMsg +
-              '\n to proceed with the demo app you must enter the required details to proceed.');
-              print(errMsg);
-              return;
-    } else {
-      isProceed = true;
-    }
-    _handleLoad(1);
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
-    this.payURL = Uri.dataFromString(loadData(),
-            mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
-        .toString();
-       });
   }
 
   String getProtoDomain(String sDomain) {
