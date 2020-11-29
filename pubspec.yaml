@@ -1,5 +1,5 @@
 name: airpay_package
-description: A Airpay Flutter package project.
+description: A Airpay Flutter package project for airpay payments integeration.
 version: 1.0.0
 author: airpay
 homepage: https://www.airpay.co.in/
@@ -17,6 +17,8 @@ dependencies:
   flutter_spinkit: ^4.1.2+1
   xml2json: ^4.4.0
   dio: ^3.0.10
+  #Example
+  alert_dialog: ^0.1.0
 
 dev_dependencies:
   flutter_test:

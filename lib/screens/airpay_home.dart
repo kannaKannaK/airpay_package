@@ -103,6 +103,9 @@ class _AirPayState extends State<AirPay> {
   @override
   void initState() {
     super.initState();
+
+  Future.delayed(Duration.zero, () {
+
     String errMsg = '';
     if (widget.user == null) {
       errMsg = 'Kindly enter your AirPay details to proceed';
@@ -136,6 +139,7 @@ class _AirPayState extends State<AirPay> {
     this.payURL = Uri.dataFromString(loadData(),
             mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
         .toString();
+       });
   }
 
   String getProtoDomain(String sDomain) {
