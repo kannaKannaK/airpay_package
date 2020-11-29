@@ -110,8 +110,11 @@ class _AirPayState extends State<AirPay> {
   }
 
   String getProtoDomain(String sDomain) {
+    if (sDomain.isNotEmpty == true) {
     int slashslash = sDomain.indexOf("//") + 2;
     return sDomain.substring(0, sDomain.indexOf("/", slashslash));
+    }
+    return '';
   }
 
   fetchDetails() async {
@@ -314,7 +317,7 @@ class _AirPayState extends State<AirPay> {
 
                         if (succesPath == webURLPath) {
                           // isShow = false;
-                                                _handleLoad(1);
+                          _handleLoad(1);
                           fetchDetails();
                           // print("onLoadStart : Success");
                         } else if (widget.user.failedUrl == webURLPath) {
@@ -351,7 +354,7 @@ class _AirPayState extends State<AirPay> {
                       });
                     },
                     navigationDelegate: (NavigationRequest request) {
-                      // if (request.url.startsWith('https://www.youtube.com/')) {
+                      // if (request.url.startsWith('https://www.test.com/')) {
                       //   print('blocking navigation to $request}');
                       //   return NavigationDecision.prevent;
                       // }
