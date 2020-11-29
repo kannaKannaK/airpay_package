@@ -6,7 +6,7 @@ Airpay Flutter plugin for payment integeration.
 ## Usage
 Add `airpay_package` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
 
-You can now include a airpayPackage in your widget tree. See the
+You can now include a airpayPackage in your project. See the
 [airpayPackage](https://pub.dev/packages/airpay_package/)
 widget's Dartdoc for more details on how to use the widget.
 
