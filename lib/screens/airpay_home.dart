@@ -105,24 +105,22 @@ class _AirPayState extends State<AirPay> {
     super.initState();
     String errMsg = '';
     if (widget.user.protoDomain.isNotEmpty) {
-      errMsg = 'Kindly enter your protoDomain to proceed';
+      errMsg = 'Kindly enter your AirPay protoDomain to proceed';
     }
     else if (widget.user.merchantId.isNotEmpty) {
-      errMsg = 'Kindly enter your MerchantID to proceed';
+      errMsg = 'Kindly enter your AirPay MerchantID to proceed';
     }
     else if (widget.user.secret.isNotEmpty) {
-      errMsg = 'Kindly enter your secretID to proceed';
+      errMsg = 'Kindly enter your AirPay secretID to proceed';
     }
     else if (widget.user.successUrl.isNotEmpty) {
-      errMsg = 'Kindly enter your SuccessURL to proceed';
+      errMsg = 'Kindly enter your AirPay SuccessURL to proceed';
     }
     else if (widget.user.failedUrl.isNotEmpty) {
-      errMsg = 'Kindly enter your failedUrl to proceed';
+      errMsg = 'Kindly enter your AirPay failedUrl to proceed';
     }
     if (errMsg.isNotEmpty) {
-        Navigator.pop(context);
-                        userCancel(errMsg);
-                        return;
+    _showAlert(context, errMsg + '\n to proceed with the demo app you must enter the required details to proceed.');
     }
     isProceed = true;
     _handleLoad(1);
@@ -207,6 +205,67 @@ class _AirPayState extends State<AirPay> {
     widget.closure(false, trans);
   }
 
+_showAlert(context, message) async {
+    await showDialog<String>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        String title = "Airpay";
+        String message1 = message;
+        return Platform.isIOS
+            ? new CupertinoAlertDialog(
+                title: Text(title),
+                content: Text(message1),
+                actions: <Widget>[
+                  new Container(
+                    margin: EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                      padding: EdgeInsets.all(12.0),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      color: Colors.blue[900],
+                      child: Text(
+                        'Okay',
+                        style: TextStyle(color: Colors.white, fontSize: 24.0),
+                      ),
+                    ),
+                  )
+                ],
+              )
+            : new AlertDialog(
+                title: Text(title),
+                content: Container(
+                    height: 140.0,
+                    width: 400.0,
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: 1,
+                        itemBuilder: (BuildContext context, int index) {
+                          return new Column(children: <Widget>[
+                            Text(message1),
+                          ]);
+                        })),
+                actions: <Widget>[
+                  new Container(
+                    margin: EdgeInsets.all(8.0),
+                    child: RaisedButton(
+                      padding: EdgeInsets.all(2.0),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      color: Colors.blue[900],
+                      child: Text(
+                        'Okay',
+                        style: TextStyle(color: Colors.white, fontSize: 24.0),
+                      ),
+                    ),
+                  )
+                ],
+              );
+      },
+    );
+  }
   _showConfirmation(context, message) async {
     await showDialog<String>(
       context: context,
