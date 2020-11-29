@@ -6,7 +6,7 @@ Airpay Flutter plugin for payment integeration.
 ## Usage
 Add `airpay_package` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
 
-You can now include a airpayPackage widget in your widget tree. See the
+You can now include a airpayPackage in your widget tree. See the
 [airpayPackage](https://pub.dev/packages/airpay_package/)
 widget's Dartdoc for more details on how to use the widget.
 
@@ -25,7 +25,7 @@ airpay_package: ^1.0.0
 ## Usage
 
 - Learn about the <a href="https://www.airpay.co.in/" target="_blank">Airpay Payment</a>.
- - Sign up <a href="https://www.airpay.co.in/services/subscription">Airpay Account</a> and generate the API Keys from the Razorpay Dashboard. Using the Test keys helps simulate a sandbox environment. No actual monetary transaction happens when using the Test keys. Use Live keys once you have thoroughly tested the application and are ready to go live.
+ - Sign up <a href="https://www.airpay.co.in/services/subscription">Airpay Account</a> and generate the API Keys from the Airpay platform. Using the sandbox keys helps simulate a sandbox environment. No actual monetary transaction happens when using the sandbox keys. Use Live keys once you have thoroughly tested the application and are ready to go live.
  
 
 ```dart
@@ -76,7 +76,7 @@ String domainPath = '##PLACE_YOUR_KEY_HERE##';
     );
 ```
 
-## Android and iOS Platform Example Views
+## Android and iOS Platform in a Single Example View
 The Airpay flutter package is a lighweight WebView is relying on
 [Platform Views](https://flutter.dev/docs/development/platform-integration/platform-views) to embed
 the Android’s webview within the Flutter app. By default a Virtual Display based platform view
