@@ -109,23 +109,26 @@ class _AirPayState extends State<AirPay> {
     }
     if (widget.user.protoDomain == null || widget.user.protoDomain.isEmpty) {
       errMsg = 'Kindly enter your AirPay protoDomain to proceed';
-    }
-    else if (widget.user.merchantId == null || widget.user.merchantId.isEmpty) {
+    } else if (widget.user.merchantId == null ||
+        widget.user.merchantId.isEmpty) {
       errMsg = 'Kindly enter your AirPay MerchantID to proceed';
-    }
-    else if (widget.user.secret == null || widget.user.secret.isEmpty) {
+    } else if (widget.user.secret == null || widget.user.secret.isEmpty) {
       errMsg = 'Kindly enter your AirPay secretID to proceed';
-    }
-    else if (widget.user.successUrl == null || widget.user.successUrl.isEmpty) {
+    } else if (widget.user.successUrl == null ||
+        widget.user.successUrl.isEmpty) {
       errMsg = 'Kindly enter your AirPay SuccessURL to proceed';
-    }
-    else if (widget.user.failedUrl == null || widget.user.failedUrl.isEmpty) {
+    } else if (widget.user.failedUrl == null || widget.user.failedUrl.isEmpty) {
       errMsg = 'Kindly enter your AirPay failedUrl to proceed';
     }
     if (errMsg.isNotEmpty) {
-    _showAlert(context, errMsg + '\n to proceed with the demo app you must enter the required details to proceed.');
+      isProceed = false;
+      _showAlert(
+          context,
+          errMsg +
+              '\n to proceed with the demo app you must enter the required details to proceed.');
+    } else {
+      isProceed = true;
     }
-    isProceed = true;
     _handleLoad(1);
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     this.payURL = Uri.dataFromString(loadData(),
@@ -135,8 +138,8 @@ class _AirPayState extends State<AirPay> {
 
   String getProtoDomain(String sDomain) {
     if (sDomain.isNotEmpty == true) {
-    int slashslash = sDomain.indexOf("//") + 2;
-    return sDomain.substring(0, sDomain.indexOf("/", slashslash));
+      int slashslash = sDomain.indexOf("//") + 2;
+      return sDomain.substring(0, sDomain.indexOf("/", slashslash));
     }
     return '';
   }
@@ -208,7 +211,7 @@ class _AirPayState extends State<AirPay> {
     widget.closure(false, trans);
   }
 
-_showAlert(context, message) async {
+  _showAlert(context, message) async {
     await showDialog<String>(
       context: context,
       barrierDismissible: false,
@@ -269,6 +272,7 @@ _showAlert(context, message) async {
       },
     );
   }
+
   _showConfirmation(context, message) async {
     await showDialog<String>(
       context: context,
@@ -374,94 +378,96 @@ _showAlert(context, message) async {
               backgroundColor: Colors.blue[900],
               actions: <Widget>[],
             ),
-            body: (isProceed ? IndexedStack(index: _stackToView, children: [
-              Column(children: <Widget>[
-                Expanded(
-                  child: WebView(
-                    initialUrl: this.payURL,
-                    javascriptMode: JavascriptMode.unrestricted,
-                    onWebViewCreated: (WebViewController webViewController) {
-                      _controller.complete(webViewController);
-                    },
-                    onPageStarted: (String url) {
-                      _handleLoad(1);
+            body: (isProceed
+                ? IndexedStack(index: _stackToView, children: [
+                    Column(children: <Widget>[
+                      Expanded(
+                        child: WebView(
+                          initialUrl: this.payURL,
+                          javascriptMode: JavascriptMode.unrestricted,
+                          onWebViewCreated:
+                              (WebViewController webViewController) {
+                            _controller.complete(webViewController);
+                          },
+                          onPageStarted: (String url) {
+                            _handleLoad(1);
 
-                      setState(() {
-                        print("onLoadStart : $url");
-                        var succesPath = getProtoDomain(widget.user.successUrl);
-                        var webURLPath = getProtoDomain(url);
-                        if (succesPath.contains("http://") &&
-                            webURLPath.contains("https://")) {
-                          webURLPath =
-                              webURLPath.replaceAll("https://", "http://");
-                        } else if (succesPath.contains("https://") &&
-                            webURLPath.contains("http://")) {
-                          webURLPath =
-                              webURLPath.replaceAll("http://", "https://");
-                        }
+                            setState(() {
+                              print("onLoadStart : $url");
+                              var succesPath =
+                                  getProtoDomain(widget.user.successUrl);
+                              var webURLPath = getProtoDomain(url);
+                              if (succesPath.contains("http://") &&
+                                  webURLPath.contains("https://")) {
+                                webURLPath = webURLPath.replaceAll(
+                                    "https://", "http://");
+                              } else if (succesPath.contains("https://") &&
+                                  webURLPath.contains("http://")) {
+                                webURLPath = webURLPath.replaceAll(
+                                    "http://", "https://");
+                              }
 
-                        if (succesPath == webURLPath) {
-                          // isShow = false;
-                          _handleLoad(1);
-                          fetchDetails();
-                          // print("onLoadStart : Success");
-                        } else if (widget.user.failedUrl == webURLPath) {
-                          userCancel('Transaction failed');
-                          // print("onLoadStart : Failed");
-                        }
-                      });
-                    },
-                    onPageFinished: (controller) async {
-                      if (Platform.isAndroid && this.isFirst == true) {
-                        this.isFirst = false;
-                        Future.delayed(const Duration(seconds: 6), () {
-                          _handleLoad(0);
-                        });
-                      } else {
-                        _handleLoad(0);
-                      }
-                      var cntrl = (await _controller.future);
+                              if (succesPath == webURLPath) {
+                                // isShow = false;
+                                _handleLoad(1);
+                                fetchDetails();
+                                // print("onLoadStart : Success");
+                              } else if (widget.user.failedUrl == webURLPath) {
+                                userCancel('Transaction failed');
+                                // print("onLoadStart : Failed");
+                              }
+                            });
+                          },
+                          onPageFinished: (controller) async {
+                            if (Platform.isAndroid && this.isFirst == true) {
+                              this.isFirst = false;
+                              Future.delayed(const Duration(seconds: 6), () {
+                                _handleLoad(0);
+                              });
+                            } else {
+                              _handleLoad(0);
+                            }
+                            var cntrl = (await _controller.future);
 
-                      final String url1 = await cntrl.currentUrl();
-                      setState(() {
-                        this.url = url1;
-                        var failurePath = widget.user
-                            .failedUrl; //getProtoDomain(widget.user.failedUrl);
+                            final String url1 = await cntrl.currentUrl();
+                            setState(() {
+                              this.url = url1;
+                              var failurePath = widget.user
+                                  .failedUrl; //getProtoDomain(widget.user.failedUrl);
 
-                        if (this.url.startsWith(failurePath)) {
-                          setState(() {
-                            userCancel('Transaction failed');
-                            // print('onLoad Stop in - $url');
-                          });
-                        } else {
-                          // print('on Load Stop: not error URL: $url');
-                        }
-                      });
-                    },
-                    navigationDelegate: (NavigationRequest request) {
-                      // if (request.url.startsWith('https://www.test.com/')) {
-                      //   print('blocking navigation to $request}');
-                      //   return NavigationDecision.prevent;
-                      // }
-                      // print('allowing navigation to $request');
-                      return NavigationDecision.navigate;
-                    },
-                  ),
-                ),
-              ]),
-              Container(
-                  child: Center(
-                      child: SpinKitCircle(
-                color: Colors.blue[900],
-                size: 50.0,
-              )))
-            ]) :  Container(
-                  child: Center(
-                      child: SpinKitCircle(
-                color: Colors.blue[900],
-                size: 50.0,
-              ))))
-            )
-            );
+                              if (this.url.startsWith(failurePath)) {
+                                setState(() {
+                                  userCancel('Transaction failed');
+                                  // print('onLoad Stop in - $url');
+                                });
+                              } else {
+                                // print('on Load Stop: not error URL: $url');
+                              }
+                            });
+                          },
+                          navigationDelegate: (NavigationRequest request) {
+                            // if (request.url.startsWith('https://www.test.com/')) {
+                            //   print('blocking navigation to $request}');
+                            //   return NavigationDecision.prevent;
+                            // }
+                            // print('allowing navigation to $request');
+                            return NavigationDecision.navigate;
+                          },
+                        ),
+                      ),
+                    ]),
+                    Container(
+                        child: Center(
+                            child: SpinKitCircle(
+                      color: Colors.blue[900],
+                      size: 50.0,
+                    )))
+                  ])
+                : Container(
+                    child: Center(
+                        child: SpinKitCircle(
+                    color: Colors.blue[900],
+                    size: 50.0,
+                  ))))));
   }
 }
