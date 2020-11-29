@@ -126,6 +126,8 @@ class _AirPayState extends State<AirPay> {
           context,
           errMsg +
               '\n to proceed with the demo app you must enter the required details to proceed.');
+              print(errMsg);
+              return;
     } else {
       isProceed = true;
     }
