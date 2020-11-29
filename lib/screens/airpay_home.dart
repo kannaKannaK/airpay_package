@@ -30,6 +30,7 @@ class _AirPayState extends State<AirPay> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
   num _stackToView = 1;
+  String errMsg = "";
   var payURL = '';
   bool isFirst = true;
   bool isProceed = false;
@@ -230,6 +231,7 @@ class _AirPayState extends State<AirPay> {
   }
 
   _showAlert(context, message) async {
+    this.errMsg = message;
     await showDialog<String>(
       context: context,
       barrierDismissible: false,
@@ -481,11 +483,6 @@ class _AirPayState extends State<AirPay> {
                       size: 50.0,
                     )))
                   ])
-                : Container(
-                    child: Center(
-                        child: SpinKitCircle(
-                    color: Colors.blue[900],
-                    size: 50.0,
-                  ))))));
+                : Container(child: Center(child: Text(this.errMsg))))));
   }
 }
