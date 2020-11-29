@@ -414,7 +414,7 @@ class _AirPayState extends State<AirPay> {
                             _handleLoad(1);
 
                             setState(() {
-                              print("onLoadStart : $url");
+                              // print("onLoadStart : $url");
                               var succesPath =
                                   getProtoDomain(widget.user.successUrl);
                               var webURLPath = getProtoDomain(url);
