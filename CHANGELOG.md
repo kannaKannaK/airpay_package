@@ -1,3 +1,3 @@
-## [1.0.0] - TODO: 22-10-2020.
+## [1.0.0+1] - TODO: 28-10-2020.
 
-* Airpay flutter.
+* Airpay flutter readme fixes.

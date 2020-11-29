@@ -17,7 +17,7 @@ This plugin is available on Pub: [https://pub.dev/packages/airpay_package/](http
 Add this to `dependencies` in your app's `pubspec.yaml`
 
 ```yaml
-airpay_package: ^1.0.0
+airpay_package: ^1.0.0+1
 ```
 
 ## Android apps must declare their use of the internet in the Android manifest (AndroidManifest.xml ):
