@@ -20,6 +20,12 @@ Add this to `dependencies` in your app's `pubspec.yaml`
 airpay_package: ^1.0.0
 ```
 
+Android apps must declare their use of the internet in the Android manifest (AndroidManifest.xml ):
+
+In the AndroidManifest.xml file located at android/app/src/main you need to add this permission inside the manifest tag.
+
+ <uses-permission android:name="android.permission.INTERNET" />
+
 **Note**: For android make sure that the minimum API level for your app is 19 or higher.
 
 ## Usage
