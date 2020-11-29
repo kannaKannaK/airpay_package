@@ -120,10 +120,11 @@ class _AirPayState extends State<AirPay> {
       } else if (widget.user.successUrl == null ||
           widget.user.successUrl.isEmpty) {
         errMsg = 'Kindly enter your AirPay SuccessURL to proceed';
-      } else if (widget.user.failedUrl == null ||
-          widget.user.failedUrl.isEmpty) {
-        errMsg = 'Kindly enter your AirPay failedUrl to proceed';
       }
+      // else if (widget.user.failedUrl == null ||
+      //     widget.user.failedUrl.isEmpty) {
+      //   errMsg = 'Kindly enter your AirPay failedUrl to proceed';
+      // }
       if (errMsg.isNotEmpty) {
         isProceed = false;
         _showAlert(
