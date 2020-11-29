@@ -23,7 +23,7 @@ For example:
 ```dart
 import 'dart:io';
 
-import 'package:airpay_package/screens/airpay_home.dart';
+import 'package:airpay_package/airpay_package.dart';
 
 class WebViewExample extends StatefulWidget {
   @override
@@ -35,17 +35,17 @@ class WebViewExampleState extends State<WebViewExample> {
   void initState() {
     super.initState();
 
-     String domainPath = '';
+    String domainPath = '##Your Domain##';
 
-    String kAirPaySecretKey = '';
+    String kAirPaySecretKey = '##Secret Key##';
 
-    String kAirPayUserName = '';
+    String kAirPayUserName = '##UserName##';
 
-    String kAirPayPassword = '';
+    String kAirPayPassword = 'Password';
 
-    String merchantID = '';
+    String merchantID = '##MerchantID##';
 
-    String successURL = '';
+    String successURL = 'SuccessURL';
   }
 
   @override
