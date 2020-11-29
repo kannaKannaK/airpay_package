@@ -32,6 +32,7 @@ class _AirPayState extends State<AirPay> {
   num _stackToView = 1;
   var payURL = '';
   bool isFirst = true;
+  bool isProceed = false;
 
   void _handleLoad(int index) {
     setState(() {
@@ -102,6 +103,28 @@ class _AirPayState extends State<AirPay> {
   @override
   void initState() {
     super.initState();
+    String errMsg = '';
+    if (widget.user.protoDomain.isNotEmpty) {
+      errMsg = 'Kindly enter your protoDomain to proceed';
+    }
+    else if (widget.user.merchantId.isNotEmpty) {
+      errMsg = 'Kindly enter your MerchantID to proceed';
+    }
+    else if (widget.user.secret.isNotEmpty) {
+      errMsg = 'Kindly enter your secretID to proceed';
+    }
+    else if (widget.user.successUrl.isNotEmpty) {
+      errMsg = 'Kindly enter your SuccessURL to proceed';
+    }
+    else if (widget.user.failedUrl.isNotEmpty) {
+      errMsg = 'Kindly enter your failedUrl to proceed';
+    }
+    if (errMsg.isNotEmpty) {
+        Navigator.pop(context);
+                        userCancel(errMsg);
+                        return;
+    }
+    isProceed = true;
     _handleLoad(1);
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     this.payURL = Uri.dataFromString(loadData(),
@@ -289,7 +312,7 @@ class _AirPayState extends State<AirPay> {
               backgroundColor: Colors.blue[900],
               actions: <Widget>[],
             ),
-            body: IndexedStack(index: _stackToView, children: [
+            body: (isProceed ? IndexedStack(index: _stackToView, children: [
               Column(children: <Widget>[
                 Expanded(
                   child: WebView(
@@ -370,6 +393,13 @@ class _AirPayState extends State<AirPay> {
                 color: Colors.blue[900],
                 size: 50.0,
               )))
-            ])));
+            ]) :  Container(
+                  child: Center(
+                      child: SpinKitCircle(
+                color: Colors.blue[900],
+                size: 50.0,
+              ))))
+            )
+            );
   }
 }
