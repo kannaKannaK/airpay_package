@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:airpay_package/model/transaction.dart';
+import 'package:airpay_package/model/Transaction.dart';
 import 'package:airpay_package/model/UserRequest.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
