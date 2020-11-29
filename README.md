@@ -659,6 +659,10 @@ android {
 <table>
   <tr>
     <td><img src="https://raw.githubusercontent.com/kannaKannaK/airpay_example/main/Screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20-%202020-11-29%20at%2021.37.54.png?token=ARMGQYPO26BZPA5HLBUHBTC7YPEIA" alt="Success Status" width="200"></td>
-    ]
+    <td><img src="https://raw.githubusercontent.com/kannaKannaK/airpay_example/main/Screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20-%202020-11-29%20at%2021.38.48.png?token=ARMGQYO3XXPR6SJ5D4R7XPS7YPEOO" alt="Success Status" width="200"></td>
+    <td><img src="https://raw.githubusercontent.com/kannaKannaK/airpay_example/main/Screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20-%202020-11-29%20at%2021.38.55.png?token=ARMGQYMRTUD3WRAGX5INOUS7YPEPY" alt="Success Status" width="200"></td>
+    <td><img src="https://raw.githubusercontent.com/kannaKannaK/airpay_example/main/Screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20-%202020-11-29%20at%2021.39.10.png?token=ARMGQYLZ7ZSHHFOPKA74XI27YPERG" alt="Success Status" width="200"></td>
+    <td><img src="https://raw.githubusercontent.com/kannaKannaK/airpay_example/main/Screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20-%202020-11-29%20at%2021.39.13.png?token=ARMGQYOUKC2ALGNXCRKMJE27YPESI" alt="Success Status" width="200"></td>
+    
   </tr>
 </table>
