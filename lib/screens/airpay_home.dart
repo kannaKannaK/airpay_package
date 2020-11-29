@@ -107,19 +107,19 @@ class _AirPayState extends State<AirPay> {
     if (widget.user == null) {
       errMsg = 'Kindly enter your AirPay details to proceed';
     }
-    if (widget.user.protoDomain == null || widget.user.protoDomain.isNotEmpty) {
+    if (widget.user.protoDomain == null || widget.user.protoDomain.isEmpty) {
       errMsg = 'Kindly enter your AirPay protoDomain to proceed';
     }
-    else if (widget.user.merchantId == null || widget.user.merchantId.isNotEmpty) {
+    else if (widget.user.merchantId == null || widget.user.merchantId.isEmpty) {
       errMsg = 'Kindly enter your AirPay MerchantID to proceed';
     }
-    else if (widget.user.secret == null || widget.user.secret.isNotEmpty) {
+    else if (widget.user.secret == null || widget.user.secret.isEmpty) {
       errMsg = 'Kindly enter your AirPay secretID to proceed';
     }
-    else if (widget.user.successUrl == null || widget.user.successUrl.isNotEmpty) {
+    else if (widget.user.successUrl == null || widget.user.successUrl.isEmpty) {
       errMsg = 'Kindly enter your AirPay SuccessURL to proceed';
     }
-    else if (widget.user.failedUrl == null || widget.user.failedUrl.isNotEmpty) {
+    else if (widget.user.failedUrl == null || widget.user.failedUrl.isEmpty) {
       errMsg = 'Kindly enter your AirPay failedUrl to proceed';
     }
     if (errMsg.isNotEmpty) {
