@@ -656,6 +656,8 @@ android {
   }
 ```
 
+## Screenshots
+
 <table>
   <tr>
     <td><img src="https://raw.githubusercontent.com/kannaKannaK/airpay_example/main/Screenshots/Simulator%20Screen%20Shot%20-%20iPhone%2011%20Pro%20-%202020-11-29%20at%2021.37.54.png?token=ARMGQYPO26BZPA5HLBUHBTC7YPEIA" alt="Success Status" width="200"></td>
