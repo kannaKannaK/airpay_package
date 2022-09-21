@@ -16,16 +16,16 @@ typedef void Closure(bool val, Transaction response);
 
 class AirPay extends StatefulWidget {
   final UserRequest user;
-  final Closure closure;
+  final Closure? closure;
 
-  AirPay({Key key, @required this.user, this.closure}) : super(key: key);
+  AirPay({Key? key, required this.user, this.closure}) : super(key: key);
   @override
   _AirPayState createState() => new _AirPayState();
 }
 
 class _AirPayState extends State<AirPay> {
   // var URL = 'https://google.com.tr';
-  String url = "";
+  String? url = "";
   var postdata = "";
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
@@ -51,7 +51,7 @@ class _AirPayState extends State<AirPay> {
     var setAllData = utf8.encode(
         '${widget.user.email}${widget.user.fname}${widget.user.lname}${widget.user.fulladdress}${widget.user.city}${widget.user.state}${widget.user.country}${widget.user.amount}${widget.user.orderid}$formattedDate$privatekey');
     var checksum = md5.convert(setAllData);
-    var protocolDomain = getProtoDomain(widget.user.protoDomain);
+    var protocolDomain = getProtoDomain(widget.user.protoDomain!);
     List<int> bytes = ascii.encode(protocolDomain);
     var encoded = base64.encode(bytes);
     var user = widget.user;
@@ -110,15 +110,15 @@ class _AirPayState extends State<AirPay> {
       if (widget.user == null) {
         errMsg = 'Kindly enter your AirPay details to proceed';
       }
-      if (widget.user.protoDomain == null || widget.user.protoDomain.isEmpty) {
+      if (widget.user.protoDomain == null || widget.user.protoDomain!.isEmpty) {
         errMsg = 'Kindly enter your AirPay protoDomain to proceed';
       } else if (widget.user.merchantId == null ||
-          widget.user.merchantId.isEmpty) {
+          widget.user.merchantId!.isEmpty) {
         errMsg = 'Kindly enter your AirPay MerchantID to proceed';
-      } else if (widget.user.secret == null || widget.user.secret.isEmpty) {
+      } else if (widget.user.secret == null || widget.user.secret!.isEmpty) {
         errMsg = 'Kindly enter your AirPay secretID to proceed';
       } else if (widget.user.successUrl == null ||
-          widget.user.successUrl.isEmpty) {
+          widget.user.successUrl!.isEmpty) {
         errMsg = 'Kindly enter your AirPay SuccessURL to proceed';
       }
       // else if (widget.user.failedUrl == null ||
@@ -217,9 +217,9 @@ class _AirPayState extends State<AirPay> {
     // print("Transaction $data");
     if (transaction.sTATUS != null) {
       if (transaction.sTATUS == '200') {
-        widget.closure(true, transaction);
+        widget.closure!(true, transaction);
       } else {
-        widget.closure(false, transaction);
+        widget.closure!(false, transaction);
       }
     }
   }
@@ -228,7 +228,7 @@ class _AirPayState extends State<AirPay> {
     var trans = Transaction();
     trans.sTATUS = '500';
     trans.tRANSACTIONREASON = withMessage;
-    widget.closure(false, trans);
+    widget.closure!(false, trans);
   }
 
   _showAlert(context, message) async {
@@ -246,12 +246,15 @@ class _AirPayState extends State<AirPay> {
                 actions: <Widget>[
                   new Container(
                     margin: EdgeInsets.all(8.0),
-                    child: RaisedButton(
-                      padding: EdgeInsets.all(12.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue[900], 
+                        padding: EdgeInsets.all(12.0),
+                        ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      color: Colors.blue[900],
+                      
                       child: Text(
                         'Okay',
                         style: TextStyle(color: Colors.white, fontSize: 24.0),
@@ -276,12 +279,16 @@ class _AirPayState extends State<AirPay> {
                 actions: <Widget>[
                   new Container(
                     margin: EdgeInsets.all(8.0),
-                    child: RaisedButton(
-                      padding: EdgeInsets.all(2.0),
+                    child: ElevatedButton(
+                       style: ElevatedButton.styleFrom(
+                            backgroundColor:  Colors.blue[900],
+                            padding: EdgeInsets.all(2.0),
+                          ),
+                      
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      color: Colors.blue[900],
+                     
                       child: Text(
                         'Okay',
                         style: TextStyle(color: Colors.white, fontSize: 24.0),
@@ -308,13 +315,16 @@ class _AirPayState extends State<AirPay> {
                 actions: <Widget>[
                   new Container(
                     margin: EdgeInsets.all(0),
-                    child: RaisedButton(
-                      padding: EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                       style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue[900],
+                          padding: EdgeInsets.all(8.0),
+                          ),
                       onPressed: () {
                         Navigator.pop(context);
                         userCancel('User canceled');
                       },
-                      color: Colors.blue[900],
+                      
                       child: Text(
                         'Yes',
                         style: TextStyle(color: Colors.white, fontSize: 24.0),
@@ -323,12 +333,15 @@ class _AirPayState extends State<AirPay> {
                   ),
                   new Container(
                     margin: EdgeInsets.all(0),
-                    child: RaisedButton(
-                      padding: EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                       style: ElevatedButton.styleFrom(
+                            backgroundColor:  Colors.blue[900],
+                            padding: EdgeInsets.all(8.0),
+                          ),
+                      
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      color: Colors.blue[900],
                       child: Text(
                         'No',
                         style: TextStyle(color: Colors.white, fontSize: 24.0),
@@ -343,13 +356,15 @@ class _AirPayState extends State<AirPay> {
                 actions: <Widget>[
                   new Container(
                     margin: EdgeInsets.all(0),
-                    child: RaisedButton(
-                      padding: EdgeInsets.all(2.0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                            backgroundColor:  Colors.blue[900],
+                            padding: EdgeInsets.all(2.0),
+                          ),
                       onPressed: () {
                         Navigator.pop(context);
                         userCancel('User canceled');
                       },
-                      color: Colors.blue[900],
                       child: Text(
                         'Yes',
                         style: TextStyle(color: Colors.white, fontSize: 24.0),
@@ -358,12 +373,14 @@ class _AirPayState extends State<AirPay> {
                   ),
                   new Container(
                     margin: EdgeInsets.all(0),
-                    child: RaisedButton(
-                      padding: EdgeInsets.all(2.0),
+                    child: ElevatedButton(
+                     style: ElevatedButton.styleFrom(
+                            backgroundColor:  Colors.blue[900],
+                            padding: EdgeInsets.all(2.0),
+                          ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      color: Colors.blue[900],
                       child: Text(
                         'No',
                         style: TextStyle(color: Colors.white, fontSize: 24.0),
@@ -400,7 +417,7 @@ class _AirPayState extends State<AirPay> {
               actions: <Widget>[],
             ),
             body: (isProceed
-                ? IndexedStack(index: _stackToView, children: [
+                ? IndexedStack(index: _stackToView as int?, children: [
                     Column(children: <Widget>[
                       Expanded(
                         child: WebView(
@@ -416,7 +433,7 @@ class _AirPayState extends State<AirPay> {
                             setState(() {
                               // print("onLoadStart : $url");
                               var succesPath =
-                                  getProtoDomain(widget.user.successUrl);
+                                  getProtoDomain(widget.user.successUrl!);
                               var webURLPath = getProtoDomain(url);
                               if (succesPath.contains("http://") &&
                                   webURLPath.contains("https://")) {
@@ -450,13 +467,13 @@ class _AirPayState extends State<AirPay> {
                             }
                             var cntrl = (await _controller.future);
 
-                            final String url1 = await cntrl.currentUrl();
+                            final String? url1 = await cntrl.currentUrl();
                             setState(() {
                               this.url = url1;
                               var failurePath = widget.user
-                                  .failedUrl; //getProtoDomain(widget.user.failedUrl);
+                                  .failedUrl!; //getProtoDomain(widget.user.failedUrl);
 
-                              if (this.url.startsWith(failurePath)) {
+                              if (this.url!.startsWith(failurePath)) {
                                 setState(() {
                                   userCancel('Transaction failed');
                                   // print('onLoad Stop in - $url');
